@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import DigitalClock from './digitalClock';
+import DigitalClock from './DigitalClock';
+import CountdownTimer from './CountdownTimer';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<DigitalClock />, document.getElementById('root'));
+ReactDOM.render(<CountdownTimer />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
