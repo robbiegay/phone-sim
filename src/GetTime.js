@@ -11,7 +11,7 @@ class GetTime extends React.Component {
 
     componentDidMount() {
         this.timerID = setInterval(
-            () => this.tick(), 1000);
+            () => this.tick(), 100);
     }
 
     componentWillUnmount() {

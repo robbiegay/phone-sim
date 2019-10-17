@@ -6,6 +6,7 @@ function addZ(x) {
     return x;
 }
 
+// 
 function plurl(x) {
     x = (x === 0) ? '' : (x === 1) ? `${x} day` : `${x} days`;
     return x;
@@ -14,13 +15,14 @@ function plurl(x) {
 class CountdownTimer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {toDate: new Date(2019, 9, 20, 0, 0)};
+        this.state = {toDate: new Date(2019, 11, 6, 11, 30)};
     }
 
-    // addZ(x) {
-    //     x = x.length < 2 ? `0${x}` : x;
-    //     return x;
-    // }
+    /*
+    Subtracts the target date's milliSec from the current time's milliSec
+    divides each time unit by its milliSec conversion, and them subtracts
+    that num from the total milliSec.
+    */
 
     timeRemaining() {
         let totalM = parseInt(this.state.toDate.valueOf() - Date.now());
@@ -34,7 +36,9 @@ class CountdownTimer extends React.Component {
         let min = Math.floor(totalM / m);
         totalM -= min * m;
         let sec = Math.floor(totalM / 1000);
-        return `${plurl(days)} ${addZ(hours - 1)}:${addZ(min)}:${addZ(sec)}`;
+        totalM -= sec * 1000;
+        let milli = Math.floor(totalM / 100).toFixed(0);
+        return `${plurl(days)} ${addZ(hours)}:${addZ(min)}:${addZ(sec)}.${milli}`;
     }
 
     render() {
@@ -43,3 +47,7 @@ class CountdownTimer extends React.Component {
 }
 
 export default CountdownTimer;
+
+
+
+// Nested turnary, using that value last minute, why the double {{}}, use of x as a var?
