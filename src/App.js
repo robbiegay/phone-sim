@@ -1,25 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import CountdownTimer from './CountdownTimer';
+import GetTime from './GetTime';
 import './App.css';
+
+// Where I build the layout of the App
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <div style={{ margin: '20px' }}>
+        <h1 style={{ color: 'green' }}>A Digital Clock</h1>
+        <GetTime type={'digiClock'} />
+        <h1 style={{ color: 'purple' }}>A Countdown Timer</h1>
+        <GetTime type={'countdown'} />
+      </div>
+    </React.Fragment>
   );
 }
 
