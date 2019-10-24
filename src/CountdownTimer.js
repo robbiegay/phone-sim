@@ -42,12 +42,8 @@ class CountdownTimer extends React.Component {
     }
 
     render() {
-        return <h1>{this.timeRemaining()}</h1>;
+        return <h1 className='clockFont'>{this.timeRemaining()}</h1>;
     }
 }
 
 export default CountdownTimer;
-
-
-
-// Nested turnary, using that value last minute, why the double {{}}, use of x as a var?

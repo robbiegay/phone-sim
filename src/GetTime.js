@@ -24,7 +24,7 @@ class GetTime extends React.Component {
 
     render() {
         if (this.props.type === 'digiClock') {
-            return <h1>{this.state.date.toLocaleTimeString('en-US')}</h1>;
+            return <h1 className='clockFont'>{this.state.date.toLocaleTimeString('en-US')}</h1>;
         }
         if (this.props.type === 'countdown') {
             return <CountdownTimer />;

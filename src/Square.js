@@ -1,12 +1,8 @@
 import React from 'react';
 
 class Square extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        return <p>test</p>;
+        return <div className='col-4 border' onClick={() => alert('hi')}>Test</div>
     }
 }
 

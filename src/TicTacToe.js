@@ -2,14 +2,22 @@ import React from 'react';
 import Square from './Square';
 
 class TicTacToe extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    
-
     render() {
-        return <Square />;
+        return (
+            <React.Fragment>
+                <div className='row'>
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                    <Square />
+                </div>
+            </React.Fragment>
+        );
     }
 }
 
