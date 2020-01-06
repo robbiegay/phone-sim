@@ -1,5 +1,6 @@
 import React from 'react';
-import GetTime from './GetTime';
+import Clock from './DigitalClock';
+import Countdown from './CountdownTimer';
 import TicTacToe from './TicTacToe';
 import MindReader from './MindReader';
 import background from './background-1.jpg';
@@ -8,8 +9,6 @@ import background from './background-1.jpg';
 
 function Layout() {
     var sectionStyle = {
-        // width: "100vw",
-        // height: "100vh",
         backgroundImage: `url(${background})`,
         backgroundSize: '100% auto',
         borderRadius: '35px',
@@ -24,9 +23,9 @@ function Layout() {
                     <div className='col-12 col-sm-12 col-md-10 col-lg-8 text-center'>
                         <div className='p-2'>
                             <section style={ sectionStyle }>
-                                <GetTime type={'digiClock'} />
+                                <Clock />
                                 <h1 className='text-info'>Countdown Timer</h1>
-                                <GetTime type={'countdown'} />
+                                <Countdown />
                                 {/* <h1 className='text-warning'>Tic-Tac-Toe</h1>
                                 <TicTacToe /> */}
                                 {/* <h1 className='text-primary'>Mind Reader</h1>
