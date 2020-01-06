@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
 function DigitalClock() {
-    const [time, setTime] = useState(Date());
+    const [time, setTime] = useState(new Date());
+    const settings = { hour: 'numeric', minute: '2-digit' };
 
-    // useEffect(() => {
-    //     setInterval(
-    //         () => setTime(new Date()), 100);
-    // });
-
-    // tick() {
-    //     setTime(new Date());
-    //     // this.setState({ date: new Date() });
-    // }
+    useEffect(() => {
+        const clock = setInterval(
+            () => setTime(new Date(), 1000)
+        );
+        
+        return function cleanup() {
+            clearInterval(clock);
+        }
+    })
 
     return (
-        <h1 className='clockFont'>{time.toLocaleTimeString('en-US')}</h1>
+        <h1 className='clockFont text-white'>{time.toLocaleTimeString([], settings)}</h1>
     );
 }
 

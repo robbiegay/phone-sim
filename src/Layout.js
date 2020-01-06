@@ -4,6 +4,7 @@ import Countdown from './CountdownTimer';
 import TicTacToe from './TicTacToe';
 import MindReader from './MindReader';
 import background from './background-1.jpg';
+import WidgetBox from './WidgetBox';
 
 // Adds a Bootstrap layout to the App
 
@@ -11,7 +12,7 @@ function Layout() {
     var sectionStyle = {
         backgroundImage: `url(${background})`,
         backgroundSize: '100% auto',
-        borderRadius: '35px',
+        borderRadius: '10px',
     };
 
     return (
@@ -26,6 +27,7 @@ function Layout() {
                                 <Clock />
                                 <h1 className='text-info'>Countdown Timer</h1>
                                 <Countdown />
+                                <WidgetBox />
                                 {/* <h1 className='text-warning'>Tic-Tac-Toe</h1>
                                 <TicTacToe /> */}
                                 {/* <h1 className='text-primary'>Mind Reader</h1>
