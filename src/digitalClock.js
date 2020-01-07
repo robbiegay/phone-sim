@@ -6,7 +6,7 @@ function DigitalClock() {
 
     useEffect(() => {
         const clock = setInterval(
-            () => setTime(new Date(), 1000)
+            () => setTime(new Date()), 1000
         );
 
         return function cleanup() {

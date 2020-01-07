@@ -1,9 +1,9 @@
 import React from 'react';
 import Clock from './DigitalClock';
-// import WidgetBox from './WidgetBox';
-// import Countdown from './CountdownTimer';
+import Countdown from './CountdownTimer';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
+// import WidgetBox from './WidgetBox';
 import Weather from './Weather';
 import background from './background-1.jpg';
 
@@ -32,8 +32,8 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                <Weather className='col-6' />
-                                <p className='col-6'>test</p>
+                                <Weather />
+                                <Countdown />
                             </section>
                         </div>
                     </div>
