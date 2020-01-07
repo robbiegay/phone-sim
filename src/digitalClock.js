@@ -1,30 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-class DigitalClock extends React.Component {
-    constructor(props) {
-        super(props);
-        // Adds a 'date' property to the 'state' property. Starts as current    // Date obj
-        this.state = { date: new Date() };
-    }
+function DigitalClock() {
+    const [time, setTime] = useState(new Date());
+    const settings = { hour: 'numeric', minute: '2-digit' };
 
-    // When the DigitalClock is loaded, starts updating page
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this.tick(), 1000);
-    }
+    useEffect(() => {
+        const clock = setInterval(
+            () => setTime(new Date(), 1000)
+        );
 
-    // When the DC is no longer in use, stops updating
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
+        return function cleanup() {
+            clearInterval(clock);
+        }
+    });
 
-    tick() {
-        this.setState({ date: new Date() });
-    }
-
-    render() {
-        return <h1>{this.state.date.toLocaleTimeString('en-US')}</h1>;
-    }
+    return (
+        <h1 className='clockFont text-white'>{time.toLocaleTimeString([], settings)}</h1>
+    );
 }
 
 export default DigitalClock;
