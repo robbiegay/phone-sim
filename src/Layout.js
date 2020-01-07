@@ -11,9 +11,12 @@ import background from './background-1.jpg';
 function Layout() {
     var sectionStyle = {
         backgroundImage: `url(${background})`,
-        backgroundSize: '100% 812px',
+        backgroundSize: '442px 786px',
         borderRadius: '10px',
         backgroundRepeat: 'no-repeat',
+        width: '442px',
+        height: '786px',
+        // 1237px
     };
 
     return (
