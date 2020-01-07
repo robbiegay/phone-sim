@@ -17,6 +17,8 @@ function Layout() {
         backgroundRepeat: 'no-repeat',
         width: '442px',
         height: '786px',
+        borderWidth: '3px',
+        borderStyle: 'solid',
     };
 
     return (
