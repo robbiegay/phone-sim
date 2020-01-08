@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 
 function Calculator() {
-    var calcBtns = ['C', '', '', '/', '7', '8', '9', 'X', '4', '5', '6', '-', '1', '2', '3', '+', '0', '', '.', '='];
+    const calcBtns = ['C', '', '', '/', '7', '8', '9', 'X', '4', '5', '6', '-', '1', '2', '3', '+', '0', '', '.', '='];
+    // // Default values
+    // var num1 = '';
+    // var num2 = '';
+    // var operand = '';
+    // // Values for multiple equal sign press
+    // var equalTemp = undefined;
+    // var eqPress = false;
+
     const [num1, setNum1] = useState('');
     const [num2, setNum2] = useState('');
     const [operand, setOperand] = useState('');
@@ -22,7 +30,7 @@ function Calculator() {
             setDisplay('-Undefined-');
         }
         // Debugging Logs:
-        console.log(`Equation: ${num1}  ${operand} ${num2}`);
+        console.log(`Equation: ${num1} ->  ${operand} -> ${num2}`);
         console.log(`Equal temp num: ${equalTemp}; eqPress: ${eqPress}`)
         console.log(`Display: ${display}`);
         console.log('---------------');
@@ -32,6 +40,7 @@ function Calculator() {
     function numPress(inputNum) {
         // Resets the equal temp number on any number press
         setEqualTemp(undefined);
+        // equalTemp = undefined;
         // If equal was just pressed, followed by a number, clears the calc
         if (eqPress) {
             clear();
@@ -41,37 +50,45 @@ function Calculator() {
             // Makes it so you can't enter 00000
             if (inputNum === '0' && num1 === '0') {
                 setNum1('');
+                // num1 = '';
                 // Caps the input length at 10 digits
             } else if (num1.length < 10) {
                 if (num1 === '0') {
                     setNum1('');
+                    // num1 = '';
                 }
                 setNum1(num1 + inputNum);
+                // num1 += inputNum;
                 setDisplay(num1);
             }
             // Sets num2
         } else {
             if (inputNum === '0' && num2 === '0') {
                 setNum2('');
+                // num2 = '';
             } else if (num2.length < 10) {
                 if (num2 === '0') {
                     setNum2('');
+                    // num2 = '';
                 }
                 setNum1(num2 + inputNum);
+                // num2 += inputNum;
                 setDisplay(num2);
             }
         }
     }
 
     // If a symbol is pressed
-    function keyPress(inputSym) {
+    function keyPress(inputKey) {
         // If the sym is not =, then reset the equal values
-        if (inputSym !== '=') {
+        if (inputKey !== '=') {
             setEqualTemp(undefined);
             setEqPress(false);
+            // equalTemp = undefined;
+            // eqPress = false;
         }
         // Switch cases for various symbols
-        switch (inputSym) {
+        switch (inputKey) {
             case '+':
                 // Only allows you to input operands if num1 has already been defined
                 // Otherwise, you can press an operand, and then a num, which can cause weird results
@@ -80,6 +97,7 @@ function Calculator() {
                     if (num2 === '') {
                         setDisplay('+');
                         setOperand('+');
+                        // operand = '+';
                         break;
                         // If it has been defined, calculate the last 2 numbers, display that result,
                         // place the result in num1, and clear num2
@@ -87,6 +105,7 @@ function Calculator() {
                         multiCalc(operand);
                         setDisplay(num1);
                         setOperand('+');
+                        // operand = '+';
                         break;
                     }
                 }
@@ -96,11 +115,13 @@ function Calculator() {
                     if (num2 === '') {
                         setDisplay('-');
                         setOperand('-');
+                        // operand = '-';
                         break;
                     } else {
                         multiCalc(operand);
                         setDisplay(num1);
                         setOperand('-');
+                        // operand = '-';
                         break;
                     }
                 }
@@ -110,11 +131,13 @@ function Calculator() {
                     if (num2 === '') {
                         setDisplay('/');
                         setOperand('/');
+                        // operand = '/';
                         break;
                     } else {
                         multiCalc(operand);
                         setDisplay(num1);
                         setOperand('/');
+                        // operand = '/';
                         break;
                     }
                 }
@@ -124,11 +147,13 @@ function Calculator() {
                     if (num2 === '') {
                         setDisplay('X');
                         setOperand('*');
+                        // operand = '*';
                         break;
                     } else {
                         multiCalc(operand);
                         setDisplay(num1);
                         setOperand('*');
+                        // operand = '*';
                         break;
                     }
                 }
@@ -141,6 +166,7 @@ function Calculator() {
                 }
                 // Records a boolean for if = was the last sym pressed
                 setEqPress(true);
+                // eqPress = true;
                 // If neither num1 nor num2 have been defined yet, do nothing
                 if (num1 === '' && num2 === '') {
                     break;
@@ -151,6 +177,7 @@ function Calculator() {
                     // If num2 has been defined, record num2 in the equal sign's temp num holder, then calculate
                 } else {
                     setEqualTemp(num2);
+                    // equalTemp = num2;
                     setDisplay(mathCalc(operand));
                     break;
                 }
@@ -160,11 +187,13 @@ function Calculator() {
                     // Check to make sure num1 doesn't already have a decimal
                     if (!num1.includes('.')) {
                         setNum1(num1 + '.');
+                        // num1 += '.';
                         setDisplay(num1);
                     }
                 } else {
                     if (!num2.includes('.')) {
                         setNum2(num2 + '.');
+                        // num2 += '.';
                         setDisplay(num2);
                     }
                 }
@@ -174,7 +203,7 @@ function Calculator() {
                 clear();
                 break;
             default:
-                console.log('a default case has been triggered.');
+                console.log('A default case has been triggered.');
         }
     }
 
@@ -186,18 +215,26 @@ function Calculator() {
                 // in num1 and displays it, clears num2 for use in future calculations
                 setNum1(Number(num1) + Number(num2));
                 setNum2('');
+                // num1 = Number(num1) + Number(num2);
+                // num2 = '';
                 return num1;
             case '-':
                 setNum1(Number(num1) - Number(num2));
                 setNum2('');
+                // num1 = Number(num1) - Number(num2);
+                // num2 = '';
                 return num1;
             case '/':
                 setNum1(Number(num1) / Number(num2));
                 setNum2('');
+                // num1 = Number(num1) / Number(num2);
+                // num2 = '';
                 return num1;
             case '*':
                 setNum1(Number(num1) * Number(num2));
                 setNum2('');
+                // num1 = Number(num1) * Number(num2);
+                // num2 = '';
                 return num1;
             default:
                 console.log('A default case has been triggered.');
@@ -210,18 +247,26 @@ function Calculator() {
             case '+':
                 setNum1(Number(num1) + Number(num2));
                 setNum2('');
+                // num1 = Number(num1) + Number(num2);
+                // num2 = '';
                 break;
             case '-':
                 setNum1(Number(num1) - Number(num2));
                 setNum2('');
+                // num1 = Number(num1) - Number(num2);
+                // num2 = '';
                 break;
             case '/':
                 setNum1(Number(num1) / Number(num2));
                 setNum2('');
+                // num1 = Number(num1) / Number(num2);
+                // num2 = '';
                 break;
             case '*':
                 setNum1(Number(num1) * Number(num2));
                 setNum2('');
+                // num1 = Number(num1) * Number(num2);
+                // num2 = '';
                 break;
             default:
                 console.log('A default case has been triggered.');
@@ -236,30 +281,42 @@ function Calculator() {
                 // Otherwise, keep performing calculations using the old value
                 if (equalTemp === undefined) {
                     setEqualTemp(num1);
+                    // equalTemp = num1;
                 }
                 setNum1(Number(num1) + Number(equalTemp));
                 setNum2('');
+                // num1 = Number(num1) + Number(equalTemp);
+                // num2 = '';
                 return num1;
             case '-':
                 if (equalTemp === undefined) {
                     setEqualTemp(num1);
+                    // equalTemp = num1;
                 }
                 setNum1(Number(num1) - Number(equalTemp));
                 setNum2('');
+                // num1 = Number(num1) - Number(equalTemp);
+                // num2 = '';
                 return num1;
             case '/':
                 if (equalTemp === undefined) {
                     setEqualTemp(num1);
+                    // equalTemp = num1;
                 }
                 setNum1(Number(num1) / Number(equalTemp));
                 setNum2('');
+                // num1 = Number(num1) / Number(equalTemp);
+                // num2 = '';
                 return num1;
             case '*':
                 if (equalTemp === undefined) {
                     setEqualTemp(num1);
+                    // equalTemp = num1;
                 }
                 setNum1(Number(num1) * Number(equalTemp));
                 setNum2('');
+                // num1 = Number(num1) * Number(equalTemp);
+                // num2 = '';
                 return num1;
             case '':
                 return num1;
@@ -275,7 +332,12 @@ function Calculator() {
         setOperand('');
         setEqualTemp(undefined);
         setEqPress(false);
+        // num1 = '';
+        // num2 = '';
+        // operand = '';
         setDisplay(0);
+        // equalTemp = undefined;
+        // eqPress = false;
     }
 
     return (

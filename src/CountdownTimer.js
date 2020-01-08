@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 function CountdownTimer() {
-    const [target, setTarget] = useState(new Date(2020, 2, 21, 0, 0));
+    const [target] = useState(new Date(2020, 2, 21, 0, 0));
     const [countdown, setCountdown] = useState({
         days: null,
         hrs: null,
@@ -32,9 +32,8 @@ function CountdownTimer() {
                 totalM -= min * m;
                 var sec = Math.floor(totalM / 1000);
                 totalM -= sec * 1000;
-                var milli = Math.floor(totalM / 100).toFixed(0);
-                // console.log(milli == 0);
-                if (days === 0 && hours === 0 && min === 0 && sec === 0 && milli == 0) {
+                var milli = Math.floor(totalM / 100);
+                if (days === 0 && hours === 0 && min === 0 && sec === 0 && milli === 0) {
                     setDone(true);
                     clearInterval(timer);
                 }

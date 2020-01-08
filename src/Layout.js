@@ -33,8 +33,8 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                <Weather />
-                                <Countdown />
+                                {/* <Weather />
+                                <Countdown /> */}
                                 <Calculator />
                             </section>
                         </div>
