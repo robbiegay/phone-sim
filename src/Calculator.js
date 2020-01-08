@@ -1,190 +1,292 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function Calculator() {
     var calcBtns = ['C', '', '', '/', '7', '8', '9', 'X', '4', '5', '6', '-', '1', '2', '3', '+', '0', '', '.', '='];
-    const [state, setState] = useState({
-        num1: '',
-        num2: '',
-        operand: '',
-        equalTemp: undefined,
-        eqPress: false,
-        display: 0,
-    });
+    const [num1, setNum1] = useState('');
+    const [num2, setNum2] = useState('');
+    const [operand, setOperand] = useState('');
+    const [equalTemp, setEqualTemp] = useState(undefined);
+    const [eqPress, setEqPress] = useState(false);
+    const [display, setDisplay] = useState('0');
 
     function userClick(e) {
         const val = e.target.innerHTML;
         if (val === 'C' || val === '/' || val === 'X' || val === '-' || val === '+' || val === '=' || val === '.') {
-            // keyPress(val);
+            keyPress(val);
         } else {
             numPress(val);
         }
-        // // If NaN (for example, from 0/0) clears the calc and displays a message)
-        // if (displayWindow.innerHTML === 'NaN') {
-        //     clear();
-        //     displayWindow.innerHTML = '-Undefined-';
-        // }
-        // // Debugging Logs:
-        // console.log(`Equation: ${num1}  ${operand} ${num2}`);
-        // console.log(`Equal temp num: ${equalTemp}; eqPress: ${eqPress}`)
-        // console.log('---------------');
+        // If NaN (for example, from 0/0) clears the calc and displays a message)
+        if (display === 'NaN') {
+            clear();
+            setDisplay('-Undefined-');
+        }
+        // Debugging Logs:
+        console.log(`Equation: ${num1}  ${operand} ${num2}`);
+        console.log(`Equal temp num: ${equalTemp}; eqPress: ${eqPress}`)
+        console.log(`Display: ${display}`);
+        console.log('---------------');
     }
-    
+
     // If a number is pressed
     function numPress(inputNum) {
         // Resets the equal temp number on any number press
-        setState({equalTemp: undefined});
+        setEqualTemp(undefined);
         // If equal was just pressed, followed by a number, clears the calc
-        if (state.eqPress) {
-            // clear(); ============
+        if (eqPress) {
+            clear();
         }
         // Sets num1
-        if (state.operand === '') {
+        if (operand === '') {
             // Makes it so you can't enter 00000
-            if (inputNum === '0' && state.num1 === '0') {
-                state.num1 = '';
+            if (inputNum === '0' && num1 === '0') {
+                setNum1('');
                 // Caps the input length at 10 digits
-            } else if (state.num1.length < 10) {
-                if (state.num1 === '0') {
-                    state.num1 = '';
+            } else if (num1.length < 10) {
+                if (num1 === '0') {
+                    setNum1('');
                 }
-                state.num1 += inputNum;
-                setState({display: state.num1});
+                setNum1(num1 + inputNum);
+                setDisplay(num1);
             }
             // Sets num2
         } else {
-            if (inputNum === '0' && state.num2 === '0') {
-                state.num2 = '';
-            } else if (state.num2.length < 10) {
-                if (state.num2 === '0') {
-                    state.num2 = '';
+            if (inputNum === '0' && num2 === '0') {
+                setNum2('');
+            } else if (num2.length < 10) {
+                if (num2 === '0') {
+                    setNum2('');
                 }
-                state.num2 += inputNum;
-                setState({display: state.num2});
+                setNum1(num2 + inputNum);
+                setDisplay(num2);
             }
         }
     }
-    
-    // // If a symbol is pressed
-    // function symPress(inputSym) {
-    //     // If the sym is not =, then reset the equal values
-    //     if (inputSym !== '=') {
-    //         equalTemp = undefined;
-    //         eqPress = false;
-    //     }
-    //     // Switch cases for various symbols
-    //     switch (inputSym) {
-    //         case '+':
-    //             // Only allows you to input operands if num1 has already been defined
-    //             // Otherwise, you can press an operand, and then a num, which can cause weird results
-    //             if (num1 !== '') {
-    //                 // If num2 isn't defined yet, set the operand and do nothing else
-    //                 if (num2 === '') {
-    //                     displayWindow.innerHTML = '+';
-    //                     operand = '+';
-    //                     break;
-    //                     // If it has been defined, calculate the last 2 numbers, display that result,
-    //                     // place the result in num1, and clear num2
-    //                 } else {
-    //                     multiCalc(operand);
-    //                     displayWindow.innerHTML = num1;
-    //                     operand = '+';
-    //                     break;
-    //                 }
-    //             }
-    //             break;
-    //         case '-':
-    //             if (num1 !== '') {
-    //                 if (num2 === '') {
-    //                     displayWindow.innerHTML = '-';
-    //                     operand = '-';
-    //                     break;
-    //                 } else {
-    //                     multiCalc(operand);
-    //                     displayWindow.innerHTML = num1;
-    //                     operand = '-';
-    //                     break;
-    //                 }
-    //             }
-    //             break;
-    //         case '/':
-    //             if (num1 !== '') {
-    //                 if (num2 === '') {
-    //                     displayWindow.innerHTML = '/';
-    //                     operand = '/';
-    //                     break;
-    //                 } else {
-    //                     multiCalc(operand);
-    //                     displayWindow.innerHTML = num1;
-    //                     operand = '/';
-    //                     break;
-    //                 }
-    //             }
-    //             break;
-    //         case 'X':
-    //             if (num1 !== '') {
-    //                 if (num2 === '') {
-    //                     displayWindow.innerHTML = 'X';
-    //                     operand = '*';
-    //                     break;
-    //                 } else {
-    //                     multiCalc(operand);
-    //                     displayWindow.innerHTML = num1;
-    //                     operand = '*';
-    //                     break;
-    //                 }
-    //             }
-    //             break;
-    //         case '=':
-    //             // If either input is '.' --> display "Illegal use of decimal"
-    //             if (num1 === '.' || num2 === '.') {
-    //                 clear();
-    //                 displayWindow.innerHTML = '-Invalid Use of Decimal-';
-    //             }
-    //             // Records a boolean for if = was the last sym pressed
-    //             eqPress = true;
-    //             // If neither num1 nor num2 have been defined yet, do nothing
-    //             if (num1 === '' && num2 === '') {
-    //                 break;
-    //                 // If num2 is undefined, calculate using num1 [operand] num1
-    //             } else if (num2 === '') {
-    //                 displayWindow.innerHTML = equalCalc(operand);
-    //                 break;
-    //                 // If num2 has been defined, record num2 in the equal sign's temp num holder, then calculate
-    //             } else {
-    //                 equalTemp = num2;
-    //                 displayWindow.innerHTML = mathCalc(operand);
-    //                 break;
-    //             }
-    //         case '.':
-    //             // If operand is undefined, then apply decimal to num1
-    //             if (operand === '') {
-    //                 // Check to make sure num1 doesn't already have a decimal
-    //                 if (!num1.includes('.')) {
-    //                     num1 += '.';
-    //                     displayWindow.innerHTML = num1;
-    //                 }
-    //             } else {
-    //                 if (!num2.includes('.')) {
-    //                     num2 += '.';
-    //                     displayWindow.innerHTML = num2;
-    //                 }
-    //             }
-    //             break;
-    //         // Clears the calc and all its variables if btn C is pressed
-    //         case 'C':
-    //             clear();
-    //     }
-    // }
+
+    // If a symbol is pressed
+    function keyPress(inputSym) {
+        // If the sym is not =, then reset the equal values
+        if (inputSym !== '=') {
+            setEqualTemp(undefined);
+            setEqPress(false);
+        }
+        // Switch cases for various symbols
+        switch (inputSym) {
+            case '+':
+                // Only allows you to input operands if num1 has already been defined
+                // Otherwise, you can press an operand, and then a num, which can cause weird results
+                if (num1 !== '') {
+                    // If num2 isn't defined yet, set the operand and do nothing else
+                    if (num2 === '') {
+                        setDisplay('+');
+                        setOperand('+');
+                        break;
+                        // If it has been defined, calculate the last 2 numbers, display that result,
+                        // place the result in num1, and clear num2
+                    } else {
+                        multiCalc(operand);
+                        setDisplay(num1);
+                        setOperand('+');
+                        break;
+                    }
+                }
+                break;
+            case '-':
+                if (num1 !== '') {
+                    if (num2 === '') {
+                        setDisplay('-');
+                        setOperand('-');
+                        break;
+                    } else {
+                        multiCalc(operand);
+                        setDisplay(num1);
+                        setOperand('-');
+                        break;
+                    }
+                }
+                break;
+            case '/':
+                if (num1 !== '') {
+                    if (num2 === '') {
+                        setDisplay('/');
+                        setOperand('/');
+                        break;
+                    } else {
+                        multiCalc(operand);
+                        setDisplay(num1);
+                        setOperand('/');
+                        break;
+                    }
+                }
+                break;
+            case 'X':
+                if (num1 !== '') {
+                    if (num2 === '') {
+                        setDisplay('X');
+                        setOperand('*');
+                        break;
+                    } else {
+                        multiCalc(operand);
+                        setDisplay(num1);
+                        setOperand('*');
+                        break;
+                    }
+                }
+                break;
+            case '=':
+                // If either input is '.' --> display "Illegal use of decimal"
+                if (num1 === '.' || num2 === '.') {
+                    clear();
+                    setDisplay('-Invalid Use of Decimal-');
+                }
+                // Records a boolean for if = was the last sym pressed
+                setEqPress(true);
+                // If neither num1 nor num2 have been defined yet, do nothing
+                if (num1 === '' && num2 === '') {
+                    break;
+                    // If num2 is undefined, calculate using num1 [operand] num1
+                } else if (num2 === '') {
+                    setDisplay(equalCalc(operand));
+                    break;
+                    // If num2 has been defined, record num2 in the equal sign's temp num holder, then calculate
+                } else {
+                    setEqualTemp(num2);
+                    setDisplay(mathCalc(operand));
+                    break;
+                }
+            case '.':
+                // If operand is undefined, then apply decimal to num1
+                if (operand === '') {
+                    // Check to make sure num1 doesn't already have a decimal
+                    if (!num1.includes('.')) {
+                        setNum1(num1 + '.');
+                        setDisplay(num1);
+                    }
+                } else {
+                    if (!num2.includes('.')) {
+                        setNum2(num2 + '.');
+                        setDisplay(num2);
+                    }
+                }
+                break;
+            // Clears the calc and all its variables if btn C is pressed
+            case 'C':
+                clear();
+                break;
+            default:
+                console.log('a default case has been triggered.');
+        }
+    }
+
+    // Normal calculations --> [] + [] =
+    function mathCalc(sym) {
+        switch (sym) {
+            case '+':
+                // Calculates num1 [operand] num2, stores that value 
+                // in num1 and displays it, clears num2 for use in future calculations
+                setNum1(Number(num1) + Number(num2));
+                setNum2('');
+                return num1;
+            case '-':
+                setNum1(Number(num1) - Number(num2));
+                setNum2('');
+                return num1;
+            case '/':
+                setNum1(Number(num1) / Number(num2));
+                setNum2('');
+                return num1;
+            case '*':
+                setNum1(Number(num1) * Number(num2));
+                setNum2('');
+                return num1;
+            default:
+                console.log('A default case has been triggered.');
+        }
+    }
+
+    // [] + [] + []... =
+    function multiCalc(sym) {
+        switch (sym) {
+            case '+':
+                setNum1(Number(num1) + Number(num2));
+                setNum2('');
+                break;
+            case '-':
+                setNum1(Number(num1) - Number(num2));
+                setNum2('');
+                break;
+            case '/':
+                setNum1(Number(num1) / Number(num2));
+                setNum2('');
+                break;
+            case '*':
+                setNum1(Number(num1) * Number(num2));
+                setNum2('');
+                break;
+            default:
+                console.log('A default case has been triggered.');
+        }
+    }
+
+    // For when equal sign is pressed multiple times --> [] + = = = OR [] + [] = = =
+    function equalCalc(sym) {
+        switch (sym) {
+            case '+':
+                // If equal's temp num has not been defined yet, define it
+                // Otherwise, keep performing calculations using the old value
+                if (equalTemp === undefined) {
+                    setEqualTemp(num1);
+                }
+                setNum1(Number(num1) + Number(equalTemp));
+                setNum2('');
+                return num1;
+            case '-':
+                if (equalTemp === undefined) {
+                    setEqualTemp(num1);
+                }
+                setNum1(Number(num1) - Number(equalTemp));
+                setNum2('');
+                return num1;
+            case '/':
+                if (equalTemp === undefined) {
+                    setEqualTemp(num1);
+                }
+                setNum1(Number(num1) / Number(equalTemp));
+                setNum2('');
+                return num1;
+            case '*':
+                if (equalTemp === undefined) {
+                    setEqualTemp(num1);
+                }
+                setNum1(Number(num1) * Number(equalTemp));
+                setNum2('');
+                return num1;
+            case '':
+                return num1;
+            default:
+                console.log('A default case has been triggered.');
+        }
+    }
+
+    // Resets all of the calculator's values to their default state
+    function clear() {
+        setNum1('');
+        setNum2('');
+        setOperand('');
+        setEqualTemp(undefined);
+        setEqPress(false);
+        setDisplay(0);
+    }
 
     return (
         <>
             <div className='container bg-light rounded'>
                 <div className='row'>
-                    <p>{state.num1}</p>
+                    <p className='col bg-light text-right display-4 rounded'>{display}</p>
                 </div>
                 <div className='row'>
                     {calcBtns.map((val, idx) => {
-                    return <button key={val !== '' ? val : `blank${idx}`} onClick={userClick} type='button' className='col-3 border bg-light display-4 btn' disabled={val === ''}>{val}</button> 
+                        return <button key={val !== '' ? val : `blank${idx}`} onClick={userClick} type='button' className='col-3 border bg-light display-4 btn' disabled={val === ''}>{val}</button>
                     })}
                 </div>
             </div>
