@@ -2,6 +2,7 @@ import React from 'react';
 import Clock from './DigitalClock';
 import Countdown from './CountdownTimer';
 import Calculator from './Calculator';
+import Calculator2 from './Calculator2';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
 // import WidgetBox from './WidgetBox';
@@ -36,6 +37,7 @@ function Layout() {
                                 {/* <Weather />
                                 <Countdown /> */}
                                 <Calculator />
+                                {/* <Calculator2 /> */}
                             </section>
                         </div>
                     </div>
