@@ -53,6 +53,7 @@ function Calculator() {
                 // num1 = '';
                 // Caps the input length at 10 digits
             } else if (num1.length < 10) {
+                console.log(inputNum);
                 if (num1 === '0') {
                     setNum1('');
                     // num1 = '';
