@@ -1,8 +1,10 @@
 import React from 'react';
 import Clock from './DigitalClock';
 import Countdown from './CountdownTimer';
-import Calculator from './Calculator';
-import Calculator2 from './Calculator2';
+// import Calculator from './Calculator';
+// import Calculator2 from './Calculator2';
+// import Calculator3 from './Calculator3';
+import Calculator4 from './Calculator4';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
 // import WidgetBox from './WidgetBox';
@@ -36,8 +38,10 @@ function Layout() {
                                 <Clock />
                                 {/* <Weather />
                                 <Countdown /> */}
-                                <Calculator />
+                                {/* <Calculator /> */}
                                 {/* <Calculator2 /> */}
+                                {/* <Calculator3 /> */}
+                                <Calculator4 />
                             </section>
                         </div>
                     </div>
