@@ -91,8 +91,8 @@ class Calculator4 extends React.Component {
                 if (this.state.num1 !== '') {
                     if (this.state.num2 === '') {
                         this.setState({
-                            display: inputKey === 'X' ? 'X' : inputKey,
-                            operand: inputKey,
+                            display: inputKey,
+                            operand: inputKey === 'X' ? '*' : inputKey,
                         });
                         break;
                     } else {
@@ -170,14 +170,20 @@ class Calculator4 extends React.Component {
                     num2: '',
                 });
                 return minus;
-            // case '/':
-            //     this.state.num1 = Number(this.state.num1) / Number(this.state.num2);
-            //     this.state.num2 = '';
-            //     return this.state.num1;
-            // case '*':
-            //     this.state.num1 = Number(this.state.num1) * Number(this.state.num2);
-            //     num2 = '';
-            //     return this.state.num1;
+            case '/':
+                var div = Number(this.state.num1) / Number(this.state.num2);
+                this.setState({
+                    num1: div,
+                    num2: '',
+                });
+                return div;
+            case '*':
+                var mult = Number(this.state.num1) * Number(this.state.num2);
+                this.setState({
+                    num1: mult,
+                    num2: '',
+                });
+                return mult;
             default:
                 console.log('WARNING: An unexpected default case was triggered.');
         }
@@ -201,6 +207,7 @@ class Calculator4 extends React.Component {
         console.log(`Equation: ${this.state.num1} ->  ${this.state.operand} -> ${this.state.num2}`);
         console.log(`Equal temp num: ${this.state.equalTemp}; eqPress: ${this.state.eqPress}`)
         console.log('---------------');
+        console.log(this.state);
         return (
             <>
                 <div className='container bg-light rounded'>
