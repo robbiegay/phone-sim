@@ -1,4 +1,5 @@
 import React from 'react';
+import update from 'immutability-helper';
 
 class Calculator4 extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class Calculator4 extends React.Component {
             num2: '',
             operand: '',
             // Values for multiple equal sign press
-            equalTemp: undefined,
+            // equalTemp: undefined,
             eqPress: false,
 
             display: '0',
@@ -18,6 +19,8 @@ class Calculator4 extends React.Component {
         this.numPress = this.numPress.bind(this);
         this.keyPress = this.keyPress.bind(this);
         this.mathCalc = this.mathCalc.bind(this);
+        this.multiCalc = this.multiCalc.bind(this);
+        this.equalCalc = this.equalCalc.bind(this);
         this.clear = this.clear.bind(this);
     }
 
@@ -33,10 +36,10 @@ class Calculator4 extends React.Component {
             this.numPress(val);
         }
         // If NaN (for example, from 0/0) clears the calc and displays a message)
-        // if (displayWindow.innerHTML === 'NaN') {
-        //     clear();
-        //     displayWindow.innerHTML = '-Undefined-';
-        // }
+        if (this.state.display === 'NaN') {
+            this.clear();
+            this.setState({ display: '-Undefined-' });
+        }
     }
 
     // If a number is pressed
@@ -58,8 +61,10 @@ class Calculator4 extends React.Component {
                     this.setState({ num1: '' });
                 }
                 var result1 = this.state.num1 + inputNum;
-                this.setState({ num1: result1 });
-                this.setState({ display: result1 });
+                this.setState({
+                    num1: result1,
+                    display: result1,
+                });
             }
             // Sets num2
         } else {
@@ -70,15 +75,17 @@ class Calculator4 extends React.Component {
                     this.setState({ num2: '' });
                 }
                 var result2 = this.state.num2 + inputNum;
-                this.setState({ num2: result2 });
-                this.setState({ display: result2 });
+                this.setState({
+                    num2: result2,
+                    display: result2,
+                });
             }
         }
     }
 
     // If a symbol is pressed
     keyPress(inputKey) {
-        // If the sym is not =, then reset the equal values
+        // If the key is not =, then reset the equal values
         if (inputKey !== '=') {
             this.setState({
                 equalTemp: undefined,
@@ -96,11 +103,11 @@ class Calculator4 extends React.Component {
                         });
                         break;
                     } else {
-                        // multiCalc(operand);
-                        // setDisplay(num1);
-                        // // setOperand(inputKey);
-                        // operand = `${inputKey}`;
-                        console.log('multi calc triggered');
+                        this.multiCalc(this.state.operand);
+                        this.setState({
+                            display: this.state.num1,
+                            operand: inputKey,
+                        });
                         break;
                     }
                 }
@@ -108,10 +115,12 @@ class Calculator4 extends React.Component {
             case '=':
                 // If either input is '.' --> display "Illegal use of decimal"
                 if (this.state.num1 === '.' || this.state.num2 === '.') {
+                    console.log('invalid decimal');
                     this.clear();
                     this.setState({ display: '-Invalid Use of Decimal-' });
+                    break;
                 }
-                // Records a boolean for if = was the last sym pressed
+                // Records a boolean for if = was the last key pressed
                 this.setState({ eqPress: true });
                 // If neither num1 nor num2 have been defined yet, do nothing
                 if (this.state.num1 === '' && this.state.num2 === '') {
@@ -122,8 +131,10 @@ class Calculator4 extends React.Component {
                     break;
                     // If num2 has been defined, record num2 in the equal sign's temp num holder, then calculate
                 } else {
-                    this.setState({ eqTemp: this.state.num2 });
-                    this.setState({ display: this.mathCalc(this.state.operand) })
+                    this.setState({
+                        eqTemp: this.state.num2,
+                        display: this.mathCalc(this.state.operand)
+                    });
                     break;
                 }
             case '.':
@@ -152,8 +163,8 @@ class Calculator4 extends React.Component {
     }
 
     // Normal calculations --> [] + [] =
-    mathCalc(sym) {
-        switch (sym) {
+    mathCalc(key) {
+        switch (key) {
             case '+':
                 // Calculates num1 [operand] num2, stores that value 
                 // in num1 and displays it, clears num2 for use in future calculations
@@ -185,11 +196,90 @@ class Calculator4 extends React.Component {
                 });
                 return mult;
             default:
-                console.log('WARNING: An unexpected default case was triggered.');
+                console.log('WARNING: Math Calc default case.');
         }
     }
-    equalCalc() {
-        console.log('equal calc');
+
+    // [] + [] + []... =
+    multiCalc(key) {
+        switch (key) {
+            case '+':
+                this.setState({
+                    num1: Number(this.state.num1) + Number(this.state.num2),
+                    num2: '',
+                });
+                break;
+            case '-':
+                this.setState({
+                    num1: Number(this.state.num1) - Number(this.state.num2),
+                    num2: '',
+                });
+                break;
+            case '/':
+                this.setState({
+                    num1: Number(this.state.num1) / Number(this.state.num2),
+                    num2: '',
+                });
+                break;
+            case '*':
+                this.setState({
+                    num1: Number(this.state.num1) * Number(this.state.num2),
+                    num2: '',
+                });
+                break;
+            default:
+                console.log('WARNING: Multi Calc default case');
+        }
+    }
+
+    // For when equal sign is pressed multiple times --> [] + = = = OR [] + [] = = =
+    equalCalc(key) {
+        switch (key) {
+            case '+':
+                // If equal's temp num has not been defined yet, define it
+                // Otherwise, keep performing calculations using the old value
+                if (this.state.equalTemp === undefined) {
+                    this.setState({ equalTemp: this.state.num1 });
+                }
+                console.log('HERE');
+                this.setState({
+                    num1: Number(this.state.num1) + Number(this.state.equalTemp),
+                    // The problem -> asking for equal temp value, when all state calls get batched together
+                    num2: '',
+                })
+                return this.state.num1;
+            case '-':
+                if (this.state.equalTemp === undefined) {
+                    this.setState({ equalTemp: this.state.num1 });
+                }
+                this.setState({
+                    num1: Number(this.state.num1) - Number(this.state.equalTemp),
+                    num2: '',
+                })
+                return this.state.num1;
+            case '/':
+                if (this.state.equalTemp === undefined) {
+                    this.setState({ equalTemp: this.state.num1 });
+                }
+                this.setState({
+                    num1: Number(this.state.num1) / Number(this.state.equalTemp),
+                    num2: '',
+                })
+                return this.state.num1;
+            case '*':
+                if (this.state.equalTemp === undefined) {
+                    this.setState({ equalTemp: this.state.num1 });
+                }
+                this.setState({
+                    num1: Number(this.state.num1) * Number(this.state.equalTemp),
+                    num2: '',
+                })
+                return this.state.num1;;
+            case '':
+                return this.state.num1;
+            default:
+                console.log('WARNING: Equal Calc default case triggered.');
+        }
     }
 
     clear() {
