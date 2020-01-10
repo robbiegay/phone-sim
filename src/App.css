@@ -1,3 +1,8 @@
 .clockFont {
   font-family: 'Roboto Mono', monospace;
 }
+
+/* Scrolls the display if numbers get too large */
+#displayWindow {
+  overflow: scroll;
+}

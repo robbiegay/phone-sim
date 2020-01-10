@@ -125,8 +125,8 @@ class Calculator4 extends React.Component {
                     } else {
                         this.multiCalc(this.state.operand);
                         this.setState({
-                            display: this.state.num1,
-                            operand: inputKey,
+                            // display: this.state.num1,
+                            operand: inputKey === 'X' ? '*' : inputKey,
                         });
                         break;
                     }
@@ -227,24 +227,28 @@ class Calculator4 extends React.Component {
                 this.setState({
                     num1: Number(this.state.num1) + Number(this.state.num2),
                     num2: '',
+                    display: Number(this.state.num1) + Number(this.state.num2),
                 });
                 break;
             case '-':
                 this.setState({
                     num1: Number(this.state.num1) - Number(this.state.num2),
                     num2: '',
+                    display: Number(this.state.num1) - Number(this.state.num2),
                 });
                 break;
             case '/':
                 this.setState({
                     num1: Number(this.state.num1) / Number(this.state.num2),
                     num2: '',
+                    display: Number(this.state.num1) / Number(this.state.num2),
                 });
                 break;
             case '*':
                 this.setState({
                     num1: Number(this.state.num1) * Number(this.state.num2),
                     num2: '',
+                    display: Number(this.state.num1) * Number(this.state.num2),
                 });
                 break;
             default:
@@ -321,7 +325,7 @@ class Calculator4 extends React.Component {
             <>
                 <div className='container bg-light rounded'>
                     <div className='row'>
-                        <p className='col bg-light text-right display-4 rounded'>{this.state.display}</p>
+                        <p id='displayWindow' className='col bg-light text-right display-4 rounded'>{this.state.display}</p>
                     </div>
                     <div className='row'>
                         {this.calcBtns.map((val, idx) => {
