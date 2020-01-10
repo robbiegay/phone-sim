@@ -5,6 +5,7 @@ import Countdown from './CountdownTimer';
 // import Calculator2 from './Calculator2';
 // import Calculator3 from './Calculator3';
 import Calculator4 from './Calculator4';
+// import Calculator5 from './Calculator5';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
 // import WidgetBox from './WidgetBox';
@@ -42,6 +43,7 @@ function Layout() {
                                 {/* <Calculator2 /> */}
                                 {/* <Calculator3 /> */}
                                 <Calculator4 />
+                                {/* <Calculator5 /> */}
                             </section>
                         </div>
                     </div>

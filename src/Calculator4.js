@@ -1,5 +1,5 @@
 import React from 'react';
-import update from 'immutability-helper';
+// import update from 'immutability-helper';
 
 class Calculator4 extends React.Component {
     constructor(props) {
@@ -10,11 +10,12 @@ class Calculator4 extends React.Component {
             num2: '',
             operand: '',
             // Values for multiple equal sign press
-            // equalTemp: undefined,
+            equalTemp: undefined,
             eqPress: false,
 
             display: '0',
         };
+
         this.userClick = this.userClick.bind(this);
         this.numPress = this.numPress.bind(this);
         this.keyPress = this.keyPress.bind(this);
@@ -37,7 +38,7 @@ class Calculator4 extends React.Component {
         }
         // If NaN (for example, from 0/0) clears the calc and displays a message)
         if (this.state.display === 'NaN') {
-            this.clear();
+            this.clear(); // CLEAR BUG HERE
             this.setState({ display: '-Undefined-' });
         }
     }
@@ -46,39 +47,58 @@ class Calculator4 extends React.Component {
     numPress(inputNum) {
         // Resets the equal temp number on any number press
         this.setState({ equalTemp: undefined });
-        // If equal was just pressed, followed by a number, clears the calc
-        if (this.state.eqPress) {
-            this.clear();
-        }
         // Sets num1
-        if (this.state.operand === '') {
+        if (this.state.operand === '' || this.state.eqPress) {
+            // If equal was just pressed, followed by a number, clears the calc
+            if (this.state.eqPress) {
+                this.setState({
+                    num1: inputNum,
+                    operand: '',
+                    eqPress: false,
+                    display: inputNum,
+                })
+            }
             // Makes it so you can't enter 00000
             if (inputNum === '0' && (this.state.num1 === '0' || this.state.num1 === '')) {
-                this.setState({ num1: '' });
+                this.setState({ 
+                    num1: '0',
+                    display: '0',
+                });
                 // Caps the input length at 10 digits
             } else if (this.state.num1.length < 10) {
                 if (this.state.num1 === '0') {
-                    this.setState({ num1: '' });
+                    this.setState({ 
+                        num1: inputNum,
+                        display: inputNum,
+                     });
+                } else {
+                    var result1 = this.state.num1 + inputNum;
+                    this.setState({
+                        num1: result1,
+                        display: result1,
+                    });
                 }
-                var result1 = this.state.num1 + inputNum;
-                this.setState({
-                    num1: result1,
-                    display: result1,
-                });
             }
             // Sets num2
         } else {
             if (inputNum === '0' && (this.state.num2 === '0' || this.state.num2 === '')) {
-                this.setState({ num2: '' });
+                this.setState({ 
+                    num2: '0',
+                    display: '0',
+                });
             } else if (this.state.num2.length < 10) {
                 if (this.state.num2 === '0') {
-                    this.setState({ num2: '' });
+                    this.setState({ 
+                        num2: inputNum,
+                        display: inputNum,
+                    });
+                } else {
+                    var result2 = this.state.num2 + inputNum;
+                    this.setState({
+                        num2: result2,
+                        display: result2,
+                    });
                 }
-                var result2 = this.state.num2 + inputNum;
-                this.setState({
-                    num2: result2,
-                    display: result2,
-                });
             }
         }
     }
@@ -297,7 +317,6 @@ class Calculator4 extends React.Component {
         console.log(`Equation: ${this.state.num1} ->  ${this.state.operand} -> ${this.state.num2}`);
         console.log(`Equal temp num: ${this.state.equalTemp}; eqPress: ${this.state.eqPress}`)
         console.log('---------------');
-        console.log(this.state);
         return (
             <>
                 <div className='container bg-light rounded'>
