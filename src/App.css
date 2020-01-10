@@ -6,3 +6,11 @@
 #displayWindow {
   overflow: scroll;
 }
+
+#todoTitle {
+  font-family: 'Mansalva', cursive;
+}
+
+#todoInput {
+  font-family: 'Lato', sans-serif;
+}
