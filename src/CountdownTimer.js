@@ -1,49 +1,78 @@
-import React from 'react';
-// import GetTime from './GetTime';
+import React, { useState, useEffect } from 'react';
 
-function addZ(x) {
-    x = x < 10 ? `0${x}` : x;
-    return x;
-}
+function CountdownTimer() {
+    const [target] = useState(new Date(2020, 2, 21, 0, 0));
+    const [countdown, setCountdown] = useState({
+        days: null,
+        hrs: null,
+        min: null,
+        sec: null,
+        mil: null,
+    });
+    const [done, setDone] = useState(false);
 
-// 
-function plurl(x) {
-    x = (x === 0) ? '' : (x === 1) ? `${x} day` : `${x} days`;
-    return x;
-}
+    const m = 1000 * 60;
+    const h = m * 60;
+    const d = h * 24;
 
-class CountdownTimer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {toDate: new Date(2019, 11, 6, 11, 30)};
+    function addZeros(x) {
+        x = x < 10 ? `0${x}` : x;
+        return x;
     }
 
-    /*
-    Subtracts the target date's milliSec from the current time's milliSec
-    divides each time unit by its milliSec conversion, and them subtracts
-    that num from the total milliSec.
-    */
+    useEffect(() => {
+        const timer = setInterval(
+            () => {
+                var totalM = target.valueOf() - Date.now();
+                var days = Math.floor(totalM / d);
+                totalM -= days * d;
+                var hours = Math.floor(totalM / h);
+                totalM -= hours * h;
+                var min = Math.floor(totalM / m);
+                totalM -= min * m;
+                var sec = Math.floor(totalM / 1000);
+                totalM -= sec * 1000;
+                var milli = Math.floor(totalM / 100);
+                if (days === 0 && hours === 0 && min === 0 && sec === 0 && milli === 0) {
+                    setDone(true);
+                    clearInterval(timer);
+                }
+                setCountdown({
+                    days: days,
+                    hrs: hours,
+                    min: min,
+                    sec: sec,
+                    mil: milli,
+                });
+            }, 100
+        );
 
-    timeRemaining() {
-        let totalM = parseInt(this.state.toDate.valueOf() - Date.now());
-        let d = 1000 * 60 * 60 * 24;
-        let h = 1000 * 60 * 60;
-        let m = 1000 * 60;
-        let days = Math.floor(totalM / d);
-        totalM -= days * d;
-        let hours = Math.floor(totalM / h);
-        totalM -= hours * h;
-        let min = Math.floor(totalM / m);
-        totalM -= min * m;
-        let sec = Math.floor(totalM / 1000);
-        totalM -= sec * 1000;
-        let milli = Math.floor(totalM / 100).toFixed(0);
-        return `${plurl(days)} ${addZ(hours)}:${addZ(min)}:${addZ(sec)}.${milli}`;
-    }
+        return function cleanup() {
+            clearInterval(timer);
+        }
+    });
 
-    render() {
-        return <h1 className='clockFont'>{this.timeRemaining()}</h1>;
-    }
+    return (
+        <>
+            <div className='container bg-warning rounded'>
+                <div className='row'>
+                    {!done ?
+                        <>
+                            <h1 className='clockFont'>{
+                                countdown.days + ' days ' +
+                                addZeros(countdown.hrs) + ':' +
+                                addZeros(countdown.min) + ':' +
+                                addZeros(countdown.sec) + '.' +
+                                countdown.mil}
+                            </h1>
+                            <p className='mx-auto'>until my birthday</p>
+                        </> :
+                        <h1 className='mx-auto'>Happy Birthday!</h1>
+                    }
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default CountdownTimer;

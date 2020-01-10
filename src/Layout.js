@@ -1,9 +1,14 @@
 import React from 'react';
 import Clock from './DigitalClock';
-// import WidgetBox from './WidgetBox';
-// import Countdown from './CountdownTimer';
+import Countdown from './CountdownTimer';
+// import Calculator from './Calculator';
+// import Calculator2 from './Calculator2';
+// import Calculator3 from './Calculator3';
+import Calculator4 from './Calculator4';
+// import Calculator5 from './Calculator5';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
+// import WidgetBox from './WidgetBox';
 import Weather from './Weather';
 import background from './background-1.jpg';
 
@@ -32,8 +37,13 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                <Weather className='col-6' />
-                                <p className='col-6'>test</p>
+                                <Weather />
+                                <Countdown />
+                                {/* <Calculator /> */}
+                                {/* <Calculator2 /> */}
+                                {/* <Calculator3 /> */}
+                                <Calculator4 />
+                                {/* <Calculator5 /> */}
                             </section>
                         </div>
                     </div>
