@@ -34,9 +34,9 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                <Weather />
+                                {/* <Weather />
                                 <Countdown />
-                                <Calculator4 />
+                                <Calculator4 /> */}
                                 <ToDo />
                             </section>
                         </div>
