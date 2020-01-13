@@ -5,7 +5,9 @@ import React, { useState, useEffect } from 'react';
 function ToDo() {
     const [view, setView] = useState('all');
     const [list, setList] = useState([]);
-    const [input, setInput] = useState('');
+
+    var input = '';
+    var inputRef = React.createRef();
 
     class ListObj {
         constructor(id, title, done) {
@@ -20,7 +22,7 @@ function ToDo() {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
                 list.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
-                addToList(i, JSON.parse(window.localStorage.todoList)[i].title);
+                // addToList(i, JSON.parse(window.localStorage.todoList)[i].title);
                 // if (list[i].done) {
                 //     let x = document.querySelector(`input[name="${i}"]`);
                 //     x.parentElement.className = 'text-success text-left';
@@ -28,7 +30,6 @@ function ToDo() {
                 // }
             }
         }
-        console.log(list[0]);
     }, []);
 
     document.addEventListener('keydown', function (e) {
@@ -54,20 +55,17 @@ function ToDo() {
                 list.push(new ListObj(list.length, input, false));
                 localStorage.setItem(`todoList`, JSON.stringify(list));
                 // Clears the input box after 'enter'
-                setInput('');
-                // let x = JSON.parse(window.localStorage.todoList);
-                // addToList(x.length - 1, x[x.length - 1].title);
+                input = '';
+                inputRef.value = '';
+                let x = JSON.parse(window.localStorage.todoList);
+                addToList(x.length - 1, x[x.length - 1].title);
             }
         }
 
     });
 
-    // useEffect(() => {
-    //     window.addEventListener('keydown', handleKeyPress);
-    // });
-
     function updateInput(e) {
-        setInput(e.target.value);
+        input = e.target.value;
     }
 
     var sectionStyle = {
@@ -78,25 +76,34 @@ function ToDo() {
         wordWrap: 'word-break',
     };
 
-
-    // function addToList(name, title) {
-    //     newListEntry.addEventListener('change', strike);
-    //     if (VIEW_STATE === 'done') {
-    //         newListEntry.setAttribute('style', 'display: none; word-wrap: break-word;');
-    //     }
-    // }
-
-    function addToList(name, title) {
+    function addToList(listIdx, title) {
         // Creates the new DOM element
-        let newListEntry = createElementAndClass('div', 'text-left');
-        newListEntry.innerHTML = `<input type="checkbox" name="${name}" value=""> ${title}`;
-        newListEntry.addEventListener('change', strike);
-        newListEntry.setAttribute('id', `${name}`);
-        newListEntry.setAttribute('style', 'word-wrap: break-word;');
-        TO_DO_LIST.appendChild(newListEntry);
-        if (VIEW_STATE === 'done') {
-            newListEntry.setAttribute('style', 'display: none; word-wrap: break-word;');
-        }
+        // list.map((val, idx) => {
+        //     console.log(val + ' , ' + idx);
+        //     // return setList(<input key={`key_${idx}`} id={idx} style={listStyle} type="checkbox" name={val} value="" />)
+        // })
+        setList(
+            <>
+                {list.map((val, idx) => {
+                    return (
+                        <div key={`groupKey_${idx}`} className="custom-control custom-checkbox ml-5">
+                            <input key={`inputKey_${idx}`} type="checkbox" className="custom-control-input" id={idx} />
+                            <label key={`labelKey_${idx}`} className="custom-control-label" htmlFor={idx}>{val.title}</label>
+                        </div>
+                    )
+                    // <input key={`key_${idx}`} id={idx} style={listStyle} type='checkbox' name={val.title} value='' />
+                })}
+            </>)
+        // todoRef
+        // let newListEntry = createElementAndClass('div', 'text-left');
+        // newListEntry.innerHTML = `<input type="checkbox" name="${name}" value=""> ${title}`;
+        // newListEntry.addEventListener('change', strike);
+        // newListEntry.setAttribute('id', `${name}`);
+        // newListEntry.setAttribute('style', 'word-wrap: break-word;');
+        // TO_DO_LIST.appendChild(newListEntry);
+        // if (VIEW_STATE === 'done') {
+        //     newListEntry.setAttribute('style', 'display: none; word-wrap: break-word;');
+        // }
     }
 
     return (
@@ -106,11 +113,12 @@ function ToDo() {
                     <h1 id='todoTitle' className='display-4 text-dark mt-2 mx-auto'>to-do</h1>
                 </div>
                 <div className='row'>
-                    <input id='todoInput' className='m-2 test-dark rounded mx-auto' style={sectionStyle} type='text' placeholder='What needs to get done?' onChange={updateInput} />
+                    <input id='todoInput' ref={el => inputRef = el} className='m-2 test-dark rounded mx-auto' style={sectionStyle} type='text' placeholder='What needs to get done?' onChange={updateInput} />
                 </div>
                 <div className='row text-left'>
                     <div id='listRow'>
-                    {/* <input key='1' id='1234' style={listStyle} type="checkbox" name='test' value='dfud' />
+                        {list}
+                        {/* <input key='1' id='1234' style={listStyle} type="checkbox" name='test' value='dfud' />
                     {console.log('test ' + list)}
                         {list.map((val, idx) => {
                             console.log('here');
