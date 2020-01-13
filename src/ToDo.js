@@ -9,6 +9,7 @@ function ToDo() {
 
     var input = '';
     var inputRef = React.createRef();
+    var listRef = React.createRef();
 
     class ListObj {
         constructor(id, title, done) {
@@ -24,6 +25,9 @@ function ToDo() {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
                 tempList.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
+                // if (tempList[i].done) {
+                //     console.log('done');
+                // }
                 // if (list[i].done) {
                 //     let x = document.querySelector(`input[name="${i}"]`);
                 //     x.parentElement.className = 'text-success text-left';
@@ -56,14 +60,12 @@ function ToDo() {
             // Removes space from left or right of input
             var tempList = list;
             if (input.trim() !== '') {
-                // list.push(new ListObj(list.length, input, false));
                 tempList.push(new ListObj(list.length, input, false));
                 setList(tempList);
                 localStorage.setItem(`todoList`, JSON.stringify(list));
                 // Clears the input box after 'enter'
                 input = '';
                 inputRef.value = '';
-                let x = JSON.parse(window.localStorage.todoList);
                 addToList(tempList);
             }
         }
@@ -86,28 +88,32 @@ function ToDo() {
         setListHTML(
             <>
                 {tempList.map((val, idx) => {
+                    console.log(val.done);
                     return (
-                        <div key={`groupKey_${idx}`} className="custom-control custom-checkbox ml-5">
-                            <input key={`inputKey_${idx}`} onChange={strike} type="checkbox" className="custom-control-input" id={idx} checked={val.done} />
-                            <label key={`labelKey_${idx}`} className="custom-control-label" htmlFor={idx}>{val.title}</label>
+                        <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
+                            <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
+                            {/* checked={val.done} --> this fixs on load, but makes it so you can't click */}
+                            <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
                         </div>
                     );
                 })}
-            </>);
+            </>
+        );
     }
 
     function strike(e) {
-        console.log(e.target.checked);
-        // if (e.target.checked) {
-        //     // The id is on the div, which is the parent of the checkbox
-        //     LIST_OBJ_ARRAY[e.target.parentNode.id].done = true;
-        //     document.getElementById(`${e.target.parentNode.id}`).className = 'text-success text-left';
-        //     localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
-        // } else {
-        //     LIST_OBJ_ARRAY[e.target.parentNode.id].done = false;
-        //     document.getElementById(`${e.target.parentNode.id}`).className = 'text-dark text-left';
-        //     localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
-        // }
+        var tempList = list;
+        if (e.target.checked) {
+            e.target.nextElementSibling.className = 'custom-control-label text-success';
+            tempList[e.target.id].done = true;
+            localStorage.setItem(`todoList`, JSON.stringify(tempList));
+            setList(tempList);
+        } else {
+            e.target.nextElementSibling.className = 'custom-control-label';
+            tempList[e.target.id].done = false;
+            localStorage.setItem(`todoList`, JSON.stringify(tempList));
+            setList(tempList);
+        }
         // switch (VIEW_STATE) {
         //     case 'todo':
         //         viewTodoFunc();
@@ -126,7 +132,7 @@ function ToDo() {
                 <div className='row'>
                     <input id='todoInput' ref={el => inputRef = el} className='m-2 test-dark rounded mx-auto' style={sectionStyle} type='text' placeholder='What needs to get done?' onChange={updateInput} />
                 </div>
-                <div className='row text-left'>
+                <div ref={el => listRef = el} className='row text-left'>
                     <div id='listRow'>
                         {listHTML}
                     </div>
