@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 function ToDo() {
     const [view, setView] = useState('all');
     const [list, setList] = useState([]);
+    const [listHTML, setListHTML] = useState();
 
     var input = '';
     var inputRef = React.createRef();
@@ -18,17 +19,19 @@ function ToDo() {
     }
 
     useEffect(() => {
+        var tempList = [];
         if (localStorage.length > 0) {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
-                list.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
-                // addToList(i, JSON.parse(window.localStorage.todoList)[i].title);
+                tempList.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
                 // if (list[i].done) {
                 //     let x = document.querySelector(`input[name="${i}"]`);
                 //     x.parentElement.className = 'text-success text-left';
                 //     x.checked = true;
                 // }
             }
+            setList(tempList);
+            addToList(tempList);
         }
     }, []);
 
@@ -51,14 +54,17 @@ function ToDo() {
         // "Enter" key
         if (e.keyCode === 13) {
             // Removes space from left or right of input
+            var tempList = list;
             if (input.trim() !== '') {
-                list.push(new ListObj(list.length, input, false));
+                // list.push(new ListObj(list.length, input, false));
+                tempList.push(new ListObj(list.length, input, false));
+                setList(tempList);
                 localStorage.setItem(`todoList`, JSON.stringify(list));
                 // Clears the input box after 'enter'
                 input = '';
                 inputRef.value = '';
                 let x = JSON.parse(window.localStorage.todoList);
-                addToList(x.length - 1, x[x.length - 1].title);
+                addToList(tempList);
             }
         }
 
@@ -76,33 +82,38 @@ function ToDo() {
         wordWrap: 'word-break',
     };
 
-    function addToList(listIdx, title) {
-        // Creates the new DOM element
-        // list.map((val, idx) => {
-        //     console.log(val + ' , ' + idx);
-        //     // return setList(<input key={`key_${idx}`} id={idx} style={listStyle} type="checkbox" name={val} value="" />)
-        // })
-        setList(
+    function addToList(tempList) {
+        setListHTML(
             <>
-                {list.map((val, idx) => {
+                {tempList.map((val, idx) => {
                     return (
                         <div key={`groupKey_${idx}`} className="custom-control custom-checkbox ml-5">
-                            <input key={`inputKey_${idx}`} type="checkbox" className="custom-control-input" id={idx} />
+                            <input key={`inputKey_${idx}`} onChange={strike} type="checkbox" className="custom-control-input" id={idx} checked={val.done} />
                             <label key={`labelKey_${idx}`} className="custom-control-label" htmlFor={idx}>{val.title}</label>
                         </div>
-                    )
-                    // <input key={`key_${idx}`} id={idx} style={listStyle} type='checkbox' name={val.title} value='' />
+                    );
                 })}
-            </>)
-        // todoRef
-        // let newListEntry = createElementAndClass('div', 'text-left');
-        // newListEntry.innerHTML = `<input type="checkbox" name="${name}" value=""> ${title}`;
-        // newListEntry.addEventListener('change', strike);
-        // newListEntry.setAttribute('id', `${name}`);
-        // newListEntry.setAttribute('style', 'word-wrap: break-word;');
-        // TO_DO_LIST.appendChild(newListEntry);
-        // if (VIEW_STATE === 'done') {
-        //     newListEntry.setAttribute('style', 'display: none; word-wrap: break-word;');
+            </>);
+    }
+
+    function strike(e) {
+        console.log(e.target.checked);
+        // if (e.target.checked) {
+        //     // The id is on the div, which is the parent of the checkbox
+        //     LIST_OBJ_ARRAY[e.target.parentNode.id].done = true;
+        //     document.getElementById(`${e.target.parentNode.id}`).className = 'text-success text-left';
+        //     localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
+        // } else {
+        //     LIST_OBJ_ARRAY[e.target.parentNode.id].done = false;
+        //     document.getElementById(`${e.target.parentNode.id}`).className = 'text-dark text-left';
+        //     localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
+        // }
+        // switch (VIEW_STATE) {
+        //     case 'todo':
+        //         viewTodoFunc();
+        //         break;
+        //     case 'done':
+        //         viewDoneFunc();
         // }
     }
 
@@ -117,13 +128,7 @@ function ToDo() {
                 </div>
                 <div className='row text-left'>
                     <div id='listRow'>
-                        {list}
-                        {/* <input key='1' id='1234' style={listStyle} type="checkbox" name='test' value='dfud' />
-                    {console.log('test ' + list)}
-                        {list.map((val, idx) => {
-                            console.log('here');
-                            return <input key={`key_${idx}`} id={idx} style={listStyle} type="checkbox" name={val} value="" />
-                        })} */}
+                        {listHTML}
                     </div>
                 </div>
                 <div className='row'>
