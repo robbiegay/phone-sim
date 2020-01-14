@@ -20,19 +20,12 @@ function ToDo() {
     }
 
     useEffect(() => {
+        console.log('useEffect');
         var tempList = [];
         if (localStorage.length > 0) {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
                 tempList.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
-                // if (tempList[i].done) {
-                //     console.log('done');
-                // }
-                // if (list[i].done) {
-                //     let x = document.querySelector(`input[name="${i}"]`);
-                //     x.parentElement.className = 'text-success text-left';
-                //     x.checked = true;
-                // }
             }
             setList(tempList);
             addToList(tempList);
@@ -69,7 +62,6 @@ function ToDo() {
                 addToList(tempList);
             }
         }
-
     });
 
     function updateInput(e) {
@@ -85,14 +77,14 @@ function ToDo() {
     };
 
     function addToList(tempList) {
+        console.log('addToList');
         setListHTML(
             <>
                 {tempList.map((val, idx) => {
                     console.log(val.done);
                     return (
                         <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
-                            <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
-                            {/* checked={val.done} --> this fixs on load, but makes it so you can't click */}
+                            <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} checked={val.done} />
                             <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
                         </div>
                     );
@@ -102,6 +94,8 @@ function ToDo() {
     }
 
     function strike(e) {
+        console.log('strike()');
+        console.log('list = ' + list);
         var tempList = list;
         if (e.target.checked) {
             e.target.nextElementSibling.className = 'custom-control-label text-success';
@@ -145,8 +139,8 @@ function ToDo() {
                 </div>
                 <div className='row'>
                     <div className='btn-group p-2 mb-2 mx-auto' display='block' aria-label='Selection Buttons'>
-                        <button id="toggleAll" type="button" className="btn btn-primary">&#128280;</button>
-                        <button id="delete" type="button" className="btn btn-primary">&#128163;</button>
+                        <button id="toggleAll" type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128280;</span></button>
+                        <button id="delete" type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128163;</span></button>
                     </div>
                 </div>
             </div>
