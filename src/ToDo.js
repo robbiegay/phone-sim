@@ -4,15 +4,11 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function ToDo() {
     const [view, setView] = useState('all');
-    // const [list, setList] = useState([]);
     const list = useRef([]);
     const [listHTML, setListHTML] = useState();
 
-    // const list2 = useRef([]);
-
     var input = '';
     var inputRef = React.createRef();
-    var listRef = React.createRef();
 
     class ListObj {
         constructor(id, title, done) {
@@ -23,16 +19,21 @@ function ToDo() {
     }
 
     useEffect(() => {
+        list.current.map((val, idx) => {
+            if (val.done) {
+                document.getElementById(idx).checked = true;
+            } 
+        });
+    }, [listHTML]);
+
+    useEffect(() => {
         console.log('useEffect');
-        // var tempList = [];
         if (localStorage.length > 0) {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
                 list.current.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
             }
-            // setList(tempList);
             addToList();
-            // list2.current = tempList;
         }
     }, []);
 
@@ -40,7 +41,6 @@ function ToDo() {
         // For testing --> Clears the local storage on key "="
         if (e.keyCode === 187) {
             localStorage.clear();
-            // setList([]);
             list.current = [];
             console.log(window.localStorage);
         }
@@ -56,10 +56,8 @@ function ToDo() {
         // "Enter" key
         if (e.keyCode === 13) {
             // Removes space from left or right of input
-            // var tempList = list;
             if (input.trim() !== '') {
                 list.current.push(new ListObj(list.length, input, false));
-                // setList(tempList);
                 localStorage.setItem(`todoList`, JSON.stringify(list.current));
                 // Clears the input box after 'enter'
                 input = '';
@@ -99,19 +97,14 @@ function ToDo() {
     }
 
     function strike(e) {
-        console.log('strike()');
-        console.log('list = ' + list.current);
-        // var tempList = list2.current;
         if (e.target.checked) {
             e.target.nextElementSibling.className = 'custom-control-label text-success';
             list.current[e.target.id].done = true;
             localStorage.setItem(`todoList`, JSON.stringify(list.current));
-            // setList(tempList);
         } else {
             e.target.nextElementSibling.className = 'custom-control-label';
             list.current[e.target.id].done = false;
             localStorage.setItem(`todoList`, JSON.stringify(list.current));
-            // setList(tempList);
         }
         // switch (VIEW_STATE) {
         //     case 'todo':
@@ -131,7 +124,7 @@ function ToDo() {
                 <div className='row'>
                     <input id='todoInput' ref={el => inputRef = el} className='m-2 test-dark rounded mx-auto' style={sectionStyle} type='text' placeholder='What needs to get done?' onChange={updateInput} />
                 </div>
-                <div ref={el => listRef = el} className='row text-left'>
+                <div className='row text-left'>
                     <div id='listRow'>
                         {listHTML}
                     </div>
