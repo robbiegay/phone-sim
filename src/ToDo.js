@@ -76,12 +76,8 @@ function ToDo() {
         input = e.target.value;
     }
 
-    var sectionStyle = {
-        width: '80%',
-    };
-
     var listStyle = {
-        wordWrap: 'word-break',
+        wordBreak: 'break-all',
     };
 
     function addToList() {
@@ -91,7 +87,7 @@ function ToDo() {
                     return (
                         <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
                             <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
-                            <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
+                            <label style={listStyle} key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
                         </div>
                     );
                 })}
@@ -170,6 +166,7 @@ function ToDo() {
                 list.current.push(tempList[idx]);
             }
         });
+        localStorage.setItem(`todoList`, JSON.stringify(list.current));
         setListHTML(
             <>
                 {list.current.map((val, idx) => {
@@ -194,16 +191,7 @@ function ToDo() {
             list.current[e.target.id].done = false;
             localStorage.setItem(`todoList`, JSON.stringify(list.current));
         }
-        // switch (view.current) {
-        //     case 'todo':
-        //         viewTodo();
-        //         break;
-        //     case 'done':
-        //         viewDone();
-        //         break;
-        //     default:
-        //         viewAll();
-        // }
+        changeView();;
     }
 
     function changeView() {
@@ -218,6 +206,34 @@ function ToDo() {
                 viewAll();
         }
     }
+
+    function showCount() {
+        // Loops through the array, counts the number of done and not-done items.
+        // Then sets the inner HTML of the view-state buttons to their respective
+        // count numbers. Is triggered on a mouseover event.
+        if (localStorage.length > 0) {
+            let doneNum = 0, notDoneNum = 0;
+            for (let i = 0; i < list.current.length; i++) {
+                list.current[i].done ? doneNum++ : notDoneNum++;
+            }
+            document.getElementById('viewDone').innerHTML = `${doneNum}`;
+            document.getElementById('viewAll').innerHTML = `${list.current.length}`;
+            document.getElementById('viewTodo').innerHTML = `${notDoneNum}`;
+        }
+    }
+
+    // Triggered on mouseout, returns view-state buttons to their original content
+    function hideCount() {
+        if (localStorage.length > 0) {
+            document.getElementById('viewDone').innerHTML = `&#10004;`;
+            document.getElementById('viewAll').innerHTML = `ALL`;
+            document.getElementById('viewTodo').innerHTML = `&#10006;`;
+        }
+    }
+
+    var sectionStyle = {
+        width: '80%',
+    };
 
     return (
         <>
@@ -234,7 +250,7 @@ function ToDo() {
                     </div>
                 </div>
                 <div className='row'>
-                    <div className='btn-group pt-2 mx-auto' role='group' aria-label='Selection Buttons'>
+                    <div onMouseEnter={showCount} onMouseLeave={hideCount} className='btn-group pt-2 mx-auto' role='group' aria-label='Selection Buttons'>
                         <button id="viewDone" onClick={() => { view.current = 'done'; changeView(); }} type="button" className="btn btn-success">&#10004;</button>
                         <button id="viewAll" onClick={() => { view.current = 'all'; changeView(); }} type="button" className="btn btn-secondary">ALL</button>
                         <button id="viewTodo" onClick={() => { view.current = 'todo'; changeView(); }} type="button" className="btn btn-danger">&#10006;</button>
