@@ -1,15 +1,12 @@
 import React from 'react';
 import Clock from './DigitalClock';
 import Countdown from './CountdownTimer';
-// import Calculator from './Calculator';
-// import Calculator2 from './Calculator2';
-// import Calculator3 from './Calculator3';
+import Weather from './Weather';
 import Calculator4 from './Calculator4';
-// import Calculator5 from './Calculator5';
+import ToDo from './ToDo.js';
 // import TicTacToe from './TicTacToe';
 // import MindReader from './MindReader';
 // import WidgetBox from './WidgetBox';
-import Weather from './Weather';
 import background from './background-1.jpg';
 
 // Adds a Bootstrap layout to the App
@@ -39,11 +36,8 @@ function Layout() {
                                 <Clock />
                                 <Weather />
                                 <Countdown />
-                                {/* <Calculator /> */}
-                                {/* <Calculator2 /> */}
-                                {/* <Calculator3 /> */}
                                 <Calculator4 />
-                                {/* <Calculator5 /> */}
+                                <ToDo />
                             </section>
                         </div>
                     </div>
