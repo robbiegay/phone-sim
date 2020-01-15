@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 // KEY and ID ON LIST WILL CAUSE PROBLEMS EVENTUALLY
 
 function ToDo() {
-    const [view, setView] = useState('all');
+    // const [view, setView] = useState('all');
+    const view = useRef('all');
     const list = useRef([]);
     const [listHTML, setListHTML] = useState();
 
@@ -20,9 +21,9 @@ function ToDo() {
 
     useEffect(() => {
         list.current.map((val, idx) => {
-            if (val.done) {
-                document.getElementById(idx).checked = true;
-            } 
+            if (val.done && document.getElementById(idx)) {
+                document.getElementById(idx).checked = true
+            }
         });
     }, [listHTML]);
 
@@ -96,6 +97,47 @@ function ToDo() {
         );
     }
 
+    function viewDone() {
+        console.log('view done');
+        setListHTML(
+            <>
+                {list.current.map((val, idx) => {
+                    if (val.done) {
+                        return (
+                            <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
+                                <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
+                                <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
+                            </div>
+                        );
+                    }
+                })}
+            </>
+        );
+    }
+
+    function viewAll() {
+        console.log('view all');
+        addToList();
+    }
+
+    function viewTodo() {
+        console.log('view to do');
+        setListHTML(
+            <>
+                {list.current.map((val, idx) => {
+                    if (!val.done) {
+                        return (
+                            <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
+                                <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
+                                <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
+                            </div>
+                        );
+                    }
+                })}
+            </>
+        );
+    }
+
     function strike(e) {
         if (e.target.checked) {
             e.target.nextElementSibling.className = 'custom-control-label text-success';
@@ -106,13 +148,29 @@ function ToDo() {
             list.current[e.target.id].done = false;
             localStorage.setItem(`todoList`, JSON.stringify(list.current));
         }
-        // switch (VIEW_STATE) {
+        // switch (view.current) {
         //     case 'todo':
-        //         viewTodoFunc();
+        //         viewTodo();
         //         break;
         //     case 'done':
-        //         viewDoneFunc();
+        //         viewDone();
+        //         break;
+        //     default:
+        //         viewAll();
         // }
+    }
+
+    function changeView() {
+        switch (view.current) {
+            case 'todo':
+                viewTodo();
+                break;
+            case 'done':
+                viewDone();
+                break;
+            default:
+                viewAll();
+        }
     }
 
     return (
@@ -131,8 +189,9 @@ function ToDo() {
                 </div>
                 <div className='row'>
                     <div className='btn-group pt-2 mx-auto' role='group' aria-label='Selection Buttons'>
-                        <button id="viewDone" type="button" className="btn btn-success">&#10004;</button><button id="viewAll" type="button" className="btn btn-secondary">ALL</button>
-                        <button id="viewTodo" type="button" className="btn btn-danger">&#10006;</button>
+                        <button id="viewDone" onClick={() => { view.current = 'done'; changeView(); }} type="button" className="btn btn-success">&#10004;</button>
+                        <button id="viewAll" onClick={() => { view.current = 'all'; changeView(); }} type="button" className="btn btn-secondary">ALL</button>
+                        <button id="viewTodo" onClick={() => { view.current = 'todo'; changeView(); }} type="button" className="btn btn-danger">&#10006;</button>
                     </div>
                 </div>
                 <div className='row'>
