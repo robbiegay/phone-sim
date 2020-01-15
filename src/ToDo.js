@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // KEY and ID ON LIST WILL CAUSE PROBLEMS EVENTUALLY
 
 function ToDo() {
     const [view, setView] = useState('all');
-    const [list, setList] = useState([]);
+    // const [list, setList] = useState([]);
+    const list = useRef([]);
     const [listHTML, setListHTML] = useState();
+
+    // const list2 = useRef([]);
 
     var input = '';
     var inputRef = React.createRef();
@@ -21,14 +24,15 @@ function ToDo() {
 
     useEffect(() => {
         console.log('useEffect');
-        var tempList = [];
+        // var tempList = [];
         if (localStorage.length > 0) {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
-                tempList.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
+                list.current.push(new ListObj(i, parsedJSON.title, parsedJSON.done));
             }
-            setList(tempList);
-            addToList(tempList);
+            // setList(tempList);
+            addToList();
+            // list2.current = tempList;
         }
     }, []);
 
@@ -36,7 +40,8 @@ function ToDo() {
         // For testing --> Clears the local storage on key "="
         if (e.keyCode === 187) {
             localStorage.clear();
-            setList([]);
+            // setList([]);
+            list.current = [];
             console.log(window.localStorage);
         }
         // For testing --> Displays some useful console.log()'s on "-" key
@@ -44,22 +49,22 @@ function ToDo() {
             console.log('----- Local Storage -----');
             console.log(JSON.parse(window.localStorage.todoList));
             console.log('----- My Code -----');
-            console.log('List: ' + list);
+            console.log('List: ' + list.current);
             console.log('Input box: ' + input);
             console.log('View state: ' + view);
         }
         // "Enter" key
         if (e.keyCode === 13) {
             // Removes space from left or right of input
-            var tempList = list;
+            // var tempList = list;
             if (input.trim() !== '') {
-                tempList.push(new ListObj(list.length, input, false));
-                setList(tempList);
-                localStorage.setItem(`todoList`, JSON.stringify(list));
+                list.current.push(new ListObj(list.length, input, false));
+                // setList(tempList);
+                localStorage.setItem(`todoList`, JSON.stringify(list.current));
                 // Clears the input box after 'enter'
                 input = '';
                 inputRef.value = '';
-                addToList(tempList);
+                addToList();
             }
         }
     });
@@ -76,15 +81,15 @@ function ToDo() {
         wordWrap: 'word-break',
     };
 
-    function addToList(tempList) {
-        console.log('addToList');
+    function addToList() {
+        console.log('addToList -> ' + list.current);
         setListHTML(
             <>
-                {tempList.map((val, idx) => {
+                {list.current.map((val, idx) => {
                     console.log(val.done);
                     return (
                         <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
-                            <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} checked={val.done} />
+                            <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
                             <label key={`labelKey_${idx}`} className={val.done ? 'custom-control-label text-success' : 'custom-control-label'} htmlFor={idx}>{val.title}</label>
                         </div>
                     );
@@ -95,18 +100,18 @@ function ToDo() {
 
     function strike(e) {
         console.log('strike()');
-        console.log('list = ' + list);
-        var tempList = list;
+        console.log('list = ' + list.current);
+        // var tempList = list2.current;
         if (e.target.checked) {
             e.target.nextElementSibling.className = 'custom-control-label text-success';
-            tempList[e.target.id].done = true;
-            localStorage.setItem(`todoList`, JSON.stringify(tempList));
-            setList(tempList);
+            list.current[e.target.id].done = true;
+            localStorage.setItem(`todoList`, JSON.stringify(list.current));
+            // setList(tempList);
         } else {
             e.target.nextElementSibling.className = 'custom-control-label';
-            tempList[e.target.id].done = false;
-            localStorage.setItem(`todoList`, JSON.stringify(tempList));
-            setList(tempList);
+            list.current[e.target.id].done = false;
+            localStorage.setItem(`todoList`, JSON.stringify(list.current));
+            // setList(tempList);
         }
         // switch (VIEW_STATE) {
         //     case 'todo':
