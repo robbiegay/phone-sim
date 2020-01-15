@@ -21,14 +21,18 @@ function ToDo() {
 
     useEffect(() => {
         list.current.map((val, idx) => {
-            if (val.done && document.getElementById(idx)) {
-                document.getElementById(idx).checked = true
+            const x = document.getElementById(idx);
+            // Makes sure this doesn't trigger before the list loads
+            if (val.done && x) {
+                x.checked = true;
+            } else if (!val.done && x) {
+                x.checked = false;
+                x.nextSibling.className = 'custom-control-label';
             }
         });
     }, [listHTML]);
 
     useEffect(() => {
-        console.log('useEffect');
         if (localStorage.length > 0) {
             for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
                 let parsedJSON = JSON.parse(window.localStorage.todoList)[`${i}`];
@@ -81,11 +85,9 @@ function ToDo() {
     };
 
     function addToList() {
-        console.log('addToList -> ' + list.current);
         setListHTML(
             <>
                 {list.current.map((val, idx) => {
-                    console.log(val.done);
                     return (
                         <div key={`groupKey_${idx}`} className='custom-control custom-checkbox ml-5' >
                             <input key={`inputKey_${idx}`} onChange={strike} type='checkbox' className='custom-control-input' id={idx} />
@@ -136,7 +138,6 @@ function ToDo() {
     }
 
     function toggleAll() {
-        console.log('toggle');
         var anyChecked = true;
         list.current.map((val) => {
             if (!val.done) {
@@ -155,11 +156,10 @@ function ToDo() {
 
     function deleteItems() {
         var temp = [];
-        list.current.map((val, idx) => {
+        list.current.map((val) => {
             if (!val.done) {
                 temp.push(true);
-            }
-            if (val.done) {
+            } else {
                 temp.push(false);
             }
         });
@@ -182,11 +182,9 @@ function ToDo() {
                 })};
             </>
         );
-        console.log(list.current);
     }
 
     function strike(e) {
-        console.log('triggered');
         if (e.target.checked) {
             e.target.nextElementSibling.className = 'custom-control-label text-success';
             list.current[e.target.id].done = true;
