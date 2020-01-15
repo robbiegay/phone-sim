@@ -98,7 +98,6 @@ function ToDo() {
     }
 
     function viewDone() {
-        console.log('view done');
         setListHTML(
             <>
                 {list.current.map((val, idx) => {
@@ -116,12 +115,10 @@ function ToDo() {
     }
 
     function viewAll() {
-        console.log('view all');
         addToList();
     }
 
     function viewTodo() {
-        console.log('view to do');
         setListHTML(
             <>
                 {list.current.map((val, idx) => {
@@ -136,6 +133,55 @@ function ToDo() {
                 })}
             </>
         );
+    }
+
+    function toggleAll() {
+        var anyChecked = true;
+        list.current.map((val) => {
+            if (!val.done) {
+                anyChecked = false;
+            }
+        })
+        list.current.map((val, idx) => {
+            if (val.done && anyChecked) {
+                document.getElementById(idx).click();
+            }
+            if (!val.done && !anyChecked) {
+                document.getElementById(idx).click();
+            }
+        });
+        // let checkForToggled = true;
+        // for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
+        //     // If at any point in the array there is a task NOT done, then set checkForToggled to false
+        //     let x = document.getElementById(i);
+        //     if (!(LIST_OBJ_ARRAY[i].done)) {
+        //         checkForToggled = false;
+        //     }
+        //     // Set all items to done and update the local storage from the array
+        //     LIST_OBJ_ARRAY[i].done = true;
+        //     x.className = 'text-success text-left';
+        //     localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
+        //     x.firstChild.checked = true;
+        // }
+        // // If all items were done to begin with, then set them all to undone
+        // if (checkForToggled) {
+        //     for (let i = 0; i < JSON.parse(window.localStorage.todoList).length; i++) {
+        //         let x = document.getElementById(i);
+        //         LIST_OBJ_ARRAY[i].done = false;
+        //         x.className = 'text-dark text-left';
+        //         localStorage.setItem(`todoList`, JSON.stringify(LIST_OBJ_ARRAY));
+        //         x.firstChild.checked = false;
+        //     }
+        // }
+        // switch (VIEW_STATE) {
+        //     case 'todo':
+        //         // console.log('todo was triggered');
+        //         viewTodoFunc();
+        //         break;
+        //     case 'done':
+        //         // console.log('done was triggered');
+        //         viewDoneFunc();
+        // }
     }
 
     function strike(e) {
@@ -196,7 +242,7 @@ function ToDo() {
                 </div>
                 <div className='row'>
                     <div className='btn-group p-2 mb-2 mx-auto' display='block' aria-label='Selection Buttons'>
-                        <button id="toggleAll" type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128280;</span></button>
+                        <button id="toggleAll" onClick={() => toggleAll()} type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128280;</span></button>
                         <button id="delete" type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128163;</span></button>
                     </div>
                 </div>
