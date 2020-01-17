@@ -4,8 +4,9 @@ import Countdown from './CountdownTimer';
 import Weather from './Weather';
 import Calculator4 from './Calculator4';
 import ToDo from './ToDo.js';
+// import AppIcon from './AppIcon.js';
+import MindReader2 from './MindReader2';
 // import TicTacToe from './TicTacToe';
-// import MindReader from './MindReader';
 // import WidgetBox from './WidgetBox';
 import background from './background-1.jpg';
 
@@ -34,10 +35,11 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                <Weather />
+                                {/* <Weather />
                                 <Countdown />
                                 <Calculator4 />
-                                <ToDo />
+                                <ToDo /> */}
+                                <MindReader2 />
                             </section>
                         </div>
                     </div>
