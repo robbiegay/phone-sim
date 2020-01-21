@@ -54,25 +54,27 @@ function MindReader2() {
             case 1:
                 setText('I can read your mind');
                 setInst('');
+                setNextReveal('');
                 setGoReset('GO');
                 break;
             case 2:
                 setText('Pick a number from 01-99');
                 setInst('When you have your number, click next');
                 setNextReveal('NEXT');
-                setGoReset(<img src={undoImg} alt="reset"></img>);
+                // document.getElementById("reset").innerHTML = '<img src="undo-solid.svg" alt="reset"></img>';
+                setGoReset('RESET');
                 break;
             case 3:
                 setText('Add both digits together to get a new number');
                 setInst('Ex: 25 is 2 + 5 = 7' + <br /> + 'Ex: 05 is 0 + 5 = 5' + <br /> + 'Click next to proceed');
                 setNextReveal('NEXT');
-                setGoReset(<img src={undoImg} alt="reset"></img>);
+                setGoReset('RESET');
                 break;
             case 4:
                 setText('Subtract your new number from your old number');
                 setInst('Ex: 25 - 07 = 18 <br>Ex: 05 - 05 = 0 <br>Click next to proceed');
                 setNextReveal('NEXT');
-                setGoReset(<img src={undoImg} alt="reset"></img>);
+                setGoReset('RESET');
                 break;
             case 5:
                 var output = symbols(100);
@@ -82,13 +84,13 @@ function MindReader2() {
                 finalAns.current = output[4];
                 document.getElementById('text').style = {maxHeight};
                 // text.setAttribute('style', 'max-height: 250px;'); // Sets the max height to allow scrolling
-                setGoReset(<img src={undoImg} alt="reset"></img>);
+                setGoReset('RESET');
                 break;
             case 6:
                 setText(finalAns.current);
                 setInst(`Your symbol is: ${finalAns.current}`);
                 setNextReveal('');
-                setGoReset(<img src={undoImg} alt="reset"></img>);
+                setGoReset('RESET');
                 break;
             default:
                 return null;
@@ -117,36 +119,15 @@ function MindReader2() {
 
 export default MindReader2;
 
-
-// function page1() {
-//     click.setAttribute('style', 'visibility: hidden;');
-// }
-// 
-// function page2() {
-//     click.setAttribute('style', 'visibility: visible;');
-// }
-// 
-// function page3() {
-//     click.setAttribute('style', 'visibility: visible;');
-// }
-// 
-// function page4() {
-//     click.setAttribute('style', 'visibility: visible;');
-// }
-// 
-// function page5() {
-//     finalAns = text.textContent.slice(49, 50); // Gets the final symbol answer
-//     text.setAttribute('style', 'max-height: 250px;'); // Sets the max height to allow scrolling
-//     click.setAttribute('style', 'visibility: visible;');
-// }
-// 
-// function page6() {
-//     click.setAttribute('style', 'visibility: hidden;');
-// }
-// 
-// 
-// 
 // Todo:
 // - Make buttons disappear on certain pages
 // - Style/sizing of elements
 // - HTML <br> of instructions
+
+
+/*
+Icons from Font Awesome
+Licensed under Creative Commons 4.0 International license
+Link to license: https://fontawesome.com/license
+I made no changes to the icons
+*/

@@ -140,6 +140,12 @@ class Calculator4 extends React.Component {
                     this.setState({ display: 'error:decimal use' });
                     break;
                 }
+                if (this.state.num1 === Infinity || this.state.num1 === -Infinity) {
+                    console.log('INFINITY!!!');
+                    this.clear();
+                    this.setState({ display: 'Infinity' });
+                    break;
+                }
                 // Divide by zero case
                 if (this.state.operand === '/' && this.state.num2 === '0') {
                     this.clear();
