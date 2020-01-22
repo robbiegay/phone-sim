@@ -1,5 +1,4 @@
 import React from 'react';
-// import update from 'immutability-helper';
 
 class Calculator4 extends React.Component {
     constructor(props) {
@@ -36,12 +35,6 @@ class Calculator4 extends React.Component {
         } else {
             this.numPress(val);
         }
-        // // If NaN (for example, from 0/0) clears the calc and displays a message)
-        // if (this.state.display === 'NaN') {
-        //     console.log('triggered');
-        //     this.clear();
-        //     this.setState({ display: '-Undefined-' });
-        // }
     }
 
     // If a number is pressed
@@ -126,7 +119,6 @@ class Calculator4 extends React.Component {
                     } else {
                         this.multiCalc(this.state.operand);
                         this.setState({
-                            // display: this.state.num1,
                             operand: inputKey === 'X' ? '*' : inputKey,
                         });
                         break;
@@ -134,10 +126,15 @@ class Calculator4 extends React.Component {
                 }
                 break;
             case '=':
-                // If either input is '.' --> display "Illegal use of decimal"
+                // If either input is '.' --> display 'Illegal use of decimal'
                 if (this.state.num1 === '.' || this.state.num2 === '.') {
                     this.clear();
                     this.setState({ display: 'error:decimal use' });
+                    break;
+                }
+                if (this.state.num1 === Infinity || this.state.num1 === -Infinity) {
+                    this.clear();
+                    this.setState({ display: 'Infinity' });
                     break;
                 }
                 // Divide by zero case
@@ -301,7 +298,6 @@ class Calculator4 extends React.Component {
                 })
                 break;
             case '':
-                console.log('Equal Calc -> blank case');
                 return this.state.num1;
             default:
                 console.log('WARNING: Equal Calc default case triggered.');
@@ -320,9 +316,6 @@ class Calculator4 extends React.Component {
     }
 
     render() {
-        console.log(`Equation: ${this.state.num1} ->  ${this.state.operand} -> ${this.state.num2}`);
-        console.log(`Equal temp num: ${this.state.equalTemp}; eqPress: ${this.state.eqPress}`)
-        console.log('---------------');
         return (
             <>
                 <div className='container bg-light rounded'>

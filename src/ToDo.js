@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// KEY and ID ON LIST WILL CAUSE PROBLEMS EVENTUALLY
-
 function ToDo() {
-    // const [view, setView] = useState('all');
     const view = useRef('all');
     const list = useRef([]);
     const [listHTML, setListHTML] = useState();
@@ -29,6 +26,7 @@ function ToDo() {
                 x.checked = false;
                 x.nextSibling.className = 'custom-control-label';
             }
+            return null;
         });
     }, [listHTML]);
 
@@ -43,22 +41,7 @@ function ToDo() {
     }, []);
 
     document.addEventListener('keydown', function (e) {
-        // For testing --> Clears the local storage on key "="
-        if (e.keyCode === 187) {
-            localStorage.clear();
-            list.current = [];
-            console.log(window.localStorage);
-        }
-        // For testing --> Displays some useful console.log()'s on "-" key
-        if (e.keyCode === 189) {
-            console.log('----- Local Storage -----');
-            console.log(JSON.parse(window.localStorage.todoList));
-            console.log('----- My Code -----');
-            console.log('List: ' + list.current);
-            console.log('Input box: ' + input);
-            console.log('View state: ' + view);
-        }
-        // "Enter" key
+        // 'Enter' key
         if (e.keyCode === 13) {
             // Removes space from left or right of input
             if (input.trim() !== '') {
@@ -107,6 +90,7 @@ function ToDo() {
                             </div>
                         );
                     }
+                    return null;
                 })}
             </>
         );
@@ -128,6 +112,7 @@ function ToDo() {
                             </div>
                         );
                     }
+                    return null;
                 })}
             </>
         );
@@ -139,7 +124,8 @@ function ToDo() {
             if (!val.done) {
                 anyChecked = false;
             }
-        })
+            return null;
+        });
         list.current.map((val, idx) => {
             if (val.done && anyChecked) {
                 document.getElementById(idx).click();
@@ -147,6 +133,7 @@ function ToDo() {
             if (!val.done && !anyChecked) {
                 document.getElementById(idx).click();
             }
+            return null;
         });
     }
 
@@ -158,6 +145,7 @@ function ToDo() {
             } else {
                 temp.push(false);
             }
+            return null;
         });
         var tempList = list.current;
         list.current = [];
@@ -165,6 +153,7 @@ function ToDo() {
             if (val) {
                 list.current.push(tempList[idx]);
             }
+            return null;
         });
         localStorage.setItem(`todoList`, JSON.stringify(list.current));
         setListHTML(
@@ -251,15 +240,15 @@ function ToDo() {
                 </div>
                 <div className='row'>
                     <div onMouseEnter={showCount} onMouseLeave={hideCount} className='btn-group pt-2 mx-auto' role='group' aria-label='Selection Buttons'>
-                        <button id="viewDone" onClick={() => { view.current = 'done'; changeView(); }} type="button" className="btn btn-success">&#10004;</button>
-                        <button id="viewAll" onClick={() => { view.current = 'all'; changeView(); }} type="button" className="btn btn-secondary">ALL</button>
-                        <button id="viewTodo" onClick={() => { view.current = 'todo'; changeView(); }} type="button" className="btn btn-danger">&#10006;</button>
+                        <button id='viewDone' onClick={() => { view.current = 'done'; changeView(); }} type='button' className='btn btn-success'>&#10004;</button>
+                        <button id='viewAll' onClick={() => { view.current = 'all'; changeView(); }} type='button' className='btn btn-secondary'>ALL</button>
+                        <button id='viewTodo' onClick={() => { view.current = 'todo'; changeView(); }} type='button' className='btn btn-danger'>&#10006;</button>
                     </div>
                 </div>
                 <div className='row'>
                     <div className='btn-group p-2 mb-2 mx-auto' display='block' aria-label='Selection Buttons'>
-                        <button id="toggleAll" onClick={() => toggleAll()} type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128280;</span></button>
-                        <button id="delete" onClick={() => deleteItems()} type="button" className="btn btn-primary"><span role='img' aria-label='emoji'>&#128163;</span></button>
+                        <button id='toggleAll' onClick={() => toggleAll()} type='button' className='btn btn-primary'><span role='img' aria-label='emoji'>&#128280;</span></button>
+                        <button id='delete' onClick={() => deleteItems()} type='button' className='btn btn-primary'><span role='img' aria-label='emoji'>&#128163;</span></button>
                     </div>
                 </div>
             </div>

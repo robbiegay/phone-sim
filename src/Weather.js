@@ -26,7 +26,6 @@ function Weather() {
                 .then(
                     (result) => {
                         setWeather(result);
-                        console.log('OpenWeather API call sent');
                     });
         }
     });

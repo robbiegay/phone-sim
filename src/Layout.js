@@ -4,22 +4,17 @@ import Countdown from './CountdownTimer';
 import Weather from './Weather';
 import Calculator4 from './Calculator4';
 import ToDo from './ToDo.js';
-// import AppIcon from './AppIcon.js';
 import MindReader2 from './MindReader2';
-// import TicTacToe from './TicTacToe';
-// import WidgetBox from './WidgetBox';
 import background from './background-1.jpg';
-
-// Adds a Bootstrap layout to the App
 
 function Layout() {
     var sectionStyle = {
         backgroundImage: `url(${background})`,
-        backgroundSize: '442px 786px',
+        backgroundSize: '442px 1500px', //'442px 786px',
         borderRadius: '10px',
         backgroundRepeat: 'no-repeat',
         width: '442px',
-        height: '786px',
+        height: '1500px', //'786px',
         borderWidth: '3px',
         borderStyle: 'solid',
     };
@@ -35,10 +30,10 @@ function Layout() {
                             {/* section = background image */}
                             <section style={sectionStyle}>
                                 <Clock />
-                                {/* <Weather />
+                                <Weather />
                                 <Countdown />
                                 <Calculator4 />
-                                <ToDo /> */}
+                                <ToDo />
                                 <MindReader2 />
                             </section>
                         </div>
@@ -48,7 +43,6 @@ function Layout() {
             </div>
         </>
     );
-
 }
 
 export default Layout;
