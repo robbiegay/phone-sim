@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import undoImg from './undo-solid.svg';
+import React, { useState, useRef } from 'react';
 
 function MindReader2() {
     const [text, setText] = useState('I can read your mind');
-    const [inst, setInst] = useState('');
+    const [inst, setInst] = useState(<p className='text-primary mx-auto p-3'>Press go</p>);
     const [nextReveal, setNextReveal] = useState('');
     const [goReset, setGoReset] = useState('GO');
 
@@ -11,7 +10,7 @@ function MindReader2() {
     var finalAns = useRef();
 
     function symbols(num) {
-        let output = '';
+        let output = [];
         let sym = [];
         let symChar = ['=', '@', '*', '$', '%', '^', '&', '+', '#'];
         for (let i = 0; i < 9; i++) {
@@ -21,13 +20,15 @@ function MindReader2() {
         }
         for (let i = 0; i < num; i++) {
             let num = i;
-            output += `${num} - ${sym[(i) % 9]}<br>`; // subtract 1 because arrays count from 0
+            output.push(`${num} - ${sym[(i) % 9]}`)
         }
         return output;
     }
 
-    var pageStyle = {
-        fontSize: '60px',
+    const pageStyle = {
+        maxHeight: '250px',
+        fontSize: '40px',
+        overflow: 'scroll',
     }
 
     function nextPage() {
@@ -44,51 +45,47 @@ function MindReader2() {
         renderPage();
     }
 
-    const maxHeight = {
-        maxHeight: '250px',
-        fontSize: '60px',
-    }
-
     function renderPage() {
         switch (pageNum.current) {
             case 1:
                 setText('I can read your mind');
-                setInst('');
+                setInst(<p className='text-primary mx-auto p-3'>Press go</p>);
                 setNextReveal('');
                 setGoReset('GO');
                 break;
             case 2:
                 setText('Pick a number from 01-99');
-                setInst('When you have your number, click next');
+                setInst(<p className='text-primary mx-auto p-3'>When you have your number, click next</p>);
                 setNextReveal('NEXT');
-                // document.getElementById("reset").innerHTML = '<img src="undo-solid.svg" alt="reset"></img>';
                 setGoReset('RESET');
                 break;
             case 3:
                 setText('Add both digits together to get a new number');
-                setInst('Ex: 25 is 2 + 5 = 7' + <br /> + 'Ex: 05 is 0 + 5 = 5' + <br /> + 'Click next to proceed');
+                setInst(<p className='text-primary mx-auto p-3'>Ex: 25 is 2 + 5 = 7<br />Ex: 05 is 0 + 5 = 5<br />Click next to proceed</p>);
                 setNextReveal('NEXT');
                 setGoReset('RESET');
                 break;
             case 4:
                 setText('Subtract your new number from your old number');
-                setInst('Ex: 25 - 07 = 18 <br>Ex: 05 - 05 = 0 <br>Click next to proceed');
+                setInst(<p className='text-primary mx-auto p-3'>Ex: 25 - 07 = 18 <br />Ex: 05 - 05 = 0 <br />Click next to proceed</p>);
                 setNextReveal('NEXT');
                 setGoReset('RESET');
                 break;
             case 5:
                 var output = symbols(100);
-                setText(output);
-                setInst('Scroll to find the result of the previous equation.<br>Note the symbol beside the result.');
+                setText(output.map((val, idx) => {
+                    return (
+                        <div key={idx}>{val}</div>
+                    );
+                }));
+                setInst(<p className='text-primary mx-auto p-3'>Scroll to find the result of the previous equation.<br />Note the symbol beside the result.</p>);
                 setNextReveal('REVEAL');
-                finalAns.current = output[4];
-                document.getElementById('text').style = {maxHeight};
-                // text.setAttribute('style', 'max-height: 250px;'); // Sets the max height to allow scrolling
+                finalAns.current = output[0][4];
                 setGoReset('RESET');
                 break;
             case 6:
-                setText(finalAns.current);
-                setInst(`Your symbol is: ${finalAns.current}`);
+                setText(`Your symbol is: ${finalAns.current}`);
+                setInst(<p className='text-primary mx-auto p-3'>Press reset to start over</p>);
                 setNextReveal('');
                 setGoReset('RESET');
                 break;
@@ -104,13 +101,13 @@ function MindReader2() {
                     <p style={pageStyle} id='text' className='text-center'>{text}</p>
                 </div>
                 <div className='row'>
-                    <button type="button" id="reset" onClick={resetPage} className='btn bg-primary mx-auto'>{goReset}</button>
+                    <button type='button' id='reset' onClick={resetPage} className='btn bg-primary mx-auto'>{goReset}</button>
                 </div>
                 <div className='row'>
-                    <p className='text-primary mx-auto p-3'>{inst}</p>
+                    {inst}
                 </div>
                 <div className='row text-center'>
-                    <button type="button" id="next" onClick={nextPage} className='btn rounded-circle border p-3 mx-auto mb-3'>{nextReveal}</button>
+                    <button type='button' id='next' onClick={nextPage} className='btn rounded-circle border p-3 mx-auto mb-3'>{nextReveal}</button>
                 </div>
             </div>
         </>
@@ -118,16 +115,3 @@ function MindReader2() {
 }
 
 export default MindReader2;
-
-// Todo:
-// - Make buttons disappear on certain pages
-// - Style/sizing of elements
-// - HTML <br> of instructions
-
-
-/*
-Icons from Font Awesome
-Licensed under Creative Commons 4.0 International license
-Link to license: https://fontawesome.com/license
-I made no changes to the icons
-*/
