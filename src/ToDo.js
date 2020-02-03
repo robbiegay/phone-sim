@@ -257,3 +257,21 @@ function ToDo() {
 }
 
 export default ToDo;
+
+// KEY and ID ON LIST WILL CAUSE PROBLEMS EVENTUALLY
+
+// // For testing --> Clears the local storage on key '='
+// if (e.keyCode === 187) {
+//     localStorage.clear();
+//     list.current = [];
+//     console.log(window.localStorage);
+// }
+// // For testing --> Displays some useful console.log()'s on '-' key
+// if (e.keyCode === 189) {
+//     console.log('----- Local Storage -----');
+//     console.log(JSON.parse(window.localStorage.todoList));
+//     console.log('----- My Code -----');
+//     console.log('List: ' + list.current);
+//     console.log('Input box: ' + input);
+//     console.log('View state: ' + view);
+// }

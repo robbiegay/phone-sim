@@ -335,3 +335,7 @@ class Calculator4 extends React.Component {
 }
 
 export default Calculator4;
+
+// console.log(`Equation: ${this.state.num1} ->  ${this.state.operand} -> ${this.state.num2}`);
+// console.log(`Equal temp num: ${this.state.equalTemp}; eqPress: ${this.state.eqPress}`)
+// console.log('---------------');
