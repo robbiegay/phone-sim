@@ -46,3 +46,9 @@ function Layout() {
 }
 
 export default Layout;
+
+
+// Background Photo by Carles Rabada on Unsplash
+// Carles -> https://unsplash.com/@carlesrgm?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
+// Unsplash -> https://unsplash.com/t/wallpapers?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
+
