@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3f34f1f7cdb1663c90f3c58757f6bd0b",
+    "revision": "3fc7a6c0a5db4da65bef0c3606aa0f32",
     "url": "/phone-sim/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/phone-sim/static/css/2.903a27b1.chunk.css"
   },
   {
-    "revision": "9b87e730eb1ec07638f5",
+    "revision": "a8cd4c2214fa96aecbfc",
     "url": "/phone-sim/static/css/main.51f91f95.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/phone-sim/static/js/2.05c97587.chunk.js.LICENSE"
   },
   {
-    "revision": "9b87e730eb1ec07638f5",
-    "url": "/phone-sim/static/js/main.18105dc4.chunk.js"
+    "revision": "a8cd4c2214fa96aecbfc",
+    "url": "/phone-sim/static/js/main.adff830f.chunk.js"
   },
   {
     "revision": "cd46710c0563b270fc42",
