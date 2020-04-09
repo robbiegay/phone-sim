@@ -34,7 +34,7 @@ function Weather() {
         <>
             <div className='container bg-info rounded'>
                     <div className='row'>
-                        <p className='text-white mx-auto'>{weather ? weather.name : 'loading...'}</p>
+                        <p className='text-white mx-auto'>{weather ? weather.name : 'loading weather...'}</p>
                     </div>
                     <div className='row'>
                         <h1 className='text-white col-9'>{weather ? ((weather.main.temp - 273.15) * (9 / 5) + 32).toFixed(0) + '°' : null}</h1>
