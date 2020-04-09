@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/phone-sim/static/css/main.51f91f95.chunk.css",
-    "main.js": "/phone-sim/static/js/main.adff830f.chunk.js",
-    "main.js.map": "/phone-sim/static/js/main.adff830f.chunk.js.map",
+    "main.js": "/phone-sim/static/js/main.23f4d25b.chunk.js",
+    "main.js.map": "/phone-sim/static/js/main.23f4d25b.chunk.js.map",
     "runtime-main.js": "/phone-sim/static/js/runtime-main.fb6a124d.js",
     "runtime-main.js.map": "/phone-sim/static/js/runtime-main.fb6a124d.js.map",
     "static/css/2.903a27b1.chunk.css": "/phone-sim/static/css/2.903a27b1.chunk.css",
     "static/js/2.05c97587.chunk.js": "/phone-sim/static/js/2.05c97587.chunk.js",
     "static/js/2.05c97587.chunk.js.map": "/phone-sim/static/js/2.05c97587.chunk.js.map",
     "index.html": "/phone-sim/index.html",
-    "precache-manifest.9e14de9283f74a023aed1ca149c545ad.js": "/phone-sim/precache-manifest.9e14de9283f74a023aed1ca149c545ad.js",
+    "precache-manifest.da6effcce0e0361f7c9b01ce52bf550b.js": "/phone-sim/precache-manifest.da6effcce0e0361f7c9b01ce52bf550b.js",
     "service-worker.js": "/phone-sim/service-worker.js",
     "static/css/2.903a27b1.chunk.css.map": "/phone-sim/static/css/2.903a27b1.chunk.css.map",
     "static/css/main.51f91f95.chunk.css.map": "/phone-sim/static/css/main.51f91f95.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.903a27b1.chunk.css",
     "static/js/2.05c97587.chunk.js",
     "static/css/main.51f91f95.chunk.css",
-    "static/js/main.adff830f.chunk.js"
+    "static/js/main.23f4d25b.chunk.js"
   ]
 }
