@@ -226,7 +226,7 @@ function ToDo() {
 
     return (
         <>
-            <div className='container bg-transparent border rounded'>
+            <div className='container bg-info border rounded'>
                 <div className='row'>
                     <h1 id='todoTitle' className='display-4 text-dark mt-2 mx-auto'>to-do</h1>
                 </div>
@@ -258,8 +258,10 @@ function ToDo() {
 
 export default ToDo;
 
+// TO FIX:
 // KEY and ID ON LIST WILL CAUSE PROBLEMS EVENTUALLY
 
+// TESTING LOGS:
 // // For testing --> Clears the local storage on key '='
 // if (e.keyCode === 187) {
 //     localStorage.clear();
