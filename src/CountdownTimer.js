@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 function CountdownTimer() {
-    const [target] = useState(new Date(2021, 2, 21, 0, 0));
+    const [birthday, setBirthday] = useState(new Date());
     const [countdown, setCountdown] = useState({
         days: null,
         hrs: null,
@@ -20,10 +20,26 @@ function CountdownTimer() {
         return x;
     }
 
+    // If the birthday timer has completed, increment to the next year
+    useEffect(() => {
+        var currentYear = new Date().getFullYear();
+        var month = 5; // 2 (0 indexed months)
+        var day = 22; // 21
+        var hour = 16; // 0
+        var minute = 40; // 0
+        
+        var nextBirthday = new Date(currentYear, month, day, hour, minute);
+        if (new Date() > nextBirthday) {
+            currentYear++;
+        }
+
+        setBirthday(new Date(currentYear, month, day, hour, minute));
+      }, []);
+
     useEffect(() => {
         const timer = setInterval(
             () => {
-                var totalM = target.valueOf() - Date.now();
+                var totalM = birthday.valueOf() - Date.now();
                 var days = Math.floor(totalM / d);
                 totalM -= days * d;
                 var hours = Math.floor(totalM / h);
