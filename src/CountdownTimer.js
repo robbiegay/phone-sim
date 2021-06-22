@@ -23,10 +23,10 @@ function CountdownTimer() {
     // If the birthday timer has completed, increment to the next year
     useEffect(() => {
         var currentYear = new Date().getFullYear();
-        var month = 5; // 2 (0 indexed months)
-        var day = 22; // 21
-        var hour = 16; // 0
-        var minute = 40; // 0
+        var month = 2; // 2 (0 indexed months)
+        var day = 21; // 21
+        var hour = 0; // 0
+        var minute = 0; // 0
         
         var nextBirthday = new Date(currentYear, month, day, hour, minute);
         if (new Date() > nextBirthday) {
